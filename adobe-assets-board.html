@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adobe Asset Board — Color Roadshow</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0b0a09;--panel:#141210;--line:#2a2622;--ink:#f4f1ec;--dim:#a09a90;--gold:#e8c47a;--green:#8bd34a;--amber:#ffb02e;--red:#ff6b5c}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font:15px/1.55 "Inter",sans-serif;padding:7vh 24px}
+  .wrap{max-width:1150px;margin:0 auto}
+  .eb{font:500 11px "IBM Plex Mono",monospace;letter-spacing:.3em;color:var(--gold);text-transform:uppercase}
+  h1{font-size:clamp(26px,4vw,40px);font-weight:600;letter-spacing:-.02em;margin:12px 0 8px}
+  .sub{color:var(--dim);max-width:74ch;margin-bottom:16px}
+  .legal{background:#1c150e;border:1px solid #4a3820;border-radius:12px;padding:16px 20px;margin-bottom:40px;font-size:13.5px;color:#d8c9a8}
+  .legal b{color:var(--amber)}
+  h2{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin:38px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+  .a{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .a .th{height:150px;display:flex;align-items:center;justify-content:center;background:
+    repeating-conic-gradient(#1b1916 0 25%,#141210 0 50%) 0 0/22px 22px}
+  .a .th.light{background:repeating-conic-gradient(#e8e6e0 0 25%,#f6f4ee 0 50%) 0 0/22px 22px}
+  .a img{max-width:100%;max-height:150px;object-fit:contain;display:block}
+  .a .meta{padding:12px 14px}
+  .a .meta b{display:block;font-size:13.5px;font-weight:600}
+  .a .meta span{display:block;color:var(--dim);font-size:12px;margin-top:2px}
+  .pill{display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.1em;padding:2px 8px;border-radius:99px;margin-top:8px}
+  .ok{background:#16240e;color:var(--green)} .warn{background:#2a2112;color:var(--amber)} .alt{background:#241014;color:var(--red)}
+  .foot{margin-top:40px;color:#57534b;font-size:12px;font-family:"IBM Plex Mono",monospace;letter-spacing:.12em}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eb">FMC × Adobe · Color Roadshow</div>
+  <h1>Adobe asset board — 16 collected</h1>
+  <p class="sub">Everything usable found on the open web, organized by clearance level. All hi-res originals live in <b>~/Downloads/adobe-color-roadshow/adobe-assets/</b>.</p>
+  <div class="legal"><b>Before publishing:</b> Adobe's <a style="color:var(--amber)" href="https://www.adobe.com/legal/permissions/icons-web-logos.html">logo/icon rules</a> require written authorization for logo + icon use — which the FMC×Adobe partnership provides the path for. Ask Tyree to request the official partner brand kit from the Adobe contact and confirm logo usage in writing. Building locally with these now is fine; nothing publishes without that sign-off.</div>
+
+  <h2>Logos & marks — official Adobe CDN files</h2>
+  <div class="grid">
+    <div class="a"><div class="th light"><img src="assets/adobe-wordmark-red-OFFICIAL-CDN.svg" alt=""></div><div class="meta"><b>Adobe wordmark (red)</b><span>adobe.com/content/dam/cc/icons — Adobe's own file</span><span class="pill ok">OFFICIAL SOURCE · NEEDS PARTNER SIGN-OFF</span></div></div>
+    <div class="a"><div class="th"><img src="assets/premiere-pro-tile-OFFICIAL-CDN.svg" alt="" style="max-height:110px"></div><div class="meta"><b>Premiere Pro app tile (Pr)</b><span>helpx.adobe.com official mnemonic SVG</span><span class="pill ok">OFFICIAL SOURCE · NEEDS PARTNER SIGN-OFF</span></div></div>
+    <div class="a"><div class="th light"><img src="assets/premiere-marketing-3.jpg" alt=""></div><div class="meta"><b>Adobe brand card (red field)</b><span>adobe.com product page, 1200px</span><span class="pill ok">OFFICIAL SOURCE</span></div></div>
+    <div class="a"><div class="th"><img src="assets/premiere-pro-icon.svg" alt="" style="max-height:110px"></div><div class="meta"><b>Premiere Pro icon (Wikimedia)</b><span>Community-traced vector — prefer the official tile above</span><span class="pill warn">BACKUP ONLY</span></div></div>
+    <div class="a"><div class="th light"><img src="assets/adobe-corporate-logo.svg" alt="" style="max-height:110px"></div><div class="meta"><b>Adobe "A" mark (Wikimedia)</b><span>Community vector — prefer official CDN files</span><span class="pill warn">BACKUP ONLY</span></div></div>
+    <div class="a"><div class="th light"><img src="assets/adobe-wordmark.svg" alt=""></div><div class="meta"><b>Adobe wordmark (Wikimedia)</b><span>Community vector — prefer official CDN files</span><span class="pill warn">BACKUP ONLY</span></div></div>
+  </div>
+
+  <h2>Premiere Pro color — in action (official product imagery)</h2>
+  <div class="grid">
+    <div class="a"><div class="th"><img src="assets/premiere-feature-1.png" alt=""></div><div class="meta"><b>★ Color workspace, before/after grade</b><span>THE hero shot — new Color panel, split-view grade</span><span class="pill ok">OFFICIAL PRODUCT IMAGERY</span></div></div>
+    <div class="a"><div class="th"><img src="assets/lumetri-panel-basic-correction.jpg" alt=""></div><div class="meta"><b>Lumetri Color panel — Basic Correction</b><span>helpx official screenshot, 2000px</span><span class="pill ok">OFFICIAL PRODUCT IMAGERY</span></div></div>
+    <div class="a"><div class="th"><img src="assets/lumetri-workflow-image.jpg" alt=""></div><div class="meta"><b>Lumetri workflow view</b><span>helpx official screenshot, 2000px</span><span class="pill ok">OFFICIAL PRODUCT IMAGERY</span></div></div>
+    <div class="a"><div class="th"><img src="assets/color-correction-effects-menu.jpg" alt=""></div><div class="meta"><b>Color Correction effects menu</b><span>helpx official screenshot</span><span class="pill ok">OFFICIAL PRODUCT IMAGERY</span></div></div>
+    <div class="a"><div class="th"><img src="assets/premiere-feature-2.png" alt=""></div><div class="meta"><b>Graphics Templates panel</b><span>Colorful UI shot — gradient backdrop</span><span class="pill ok">OFFICIAL PRODUCT IMAGERY</span></div></div>
+    <div class="a"><div class="th"><img src="assets/premiere-feature-3.png" alt=""></div><div class="meta"><b>Auto-masking (snowboarder)</b><span>Selection/masking feature visual</span><span class="pill ok">OFFICIAL PRODUCT IMAGERY</span></div></div>
+    <div class="a"><div class="th"><img src="assets/premiere-feature-4.jpg" alt=""></div><div class="meta"><b>Generative Extend card</b><span>Feature visual with timeline UI</span><span class="pill ok">OFFICIAL PRODUCT IMAGERY</span></div></div>
+    <div class="a"><div class="th"><img src="assets/premiere-marketing-1.png" alt=""></div><div class="meta"><b>Campaign photo — pink colonnade</b><span>Color-graded campaign art (also -2, wider crop)</span><span class="pill ok">OFFICIAL PRODUCT IMAGERY</span></div></div>
+  </div>
+
+  <h2>Not collected (needs accounts / people)</h2>
+  <div class="grid">
+    <div class="a"><div class="meta" style="padding:18px"><b>Adobe partner brand kit</b><span>The real deliverable — official logos + lockups + usage rules. Route: Tyree → Adobe partner contact.</span><span class="pill alt">ASK TYREE</span></div></div>
+    <div class="a"><div class="meta" style="padding:18px"><b>Adobe Stock / newsroom media library</b><span>Higher-res campaign stills exist behind Adobe accounts (news.adobe.com media library, Adobe Stock via the FMC plan).</span><span class="pill alt">NEEDS LOGIN</span></div></div>
+  </div>
+
+  <p class="foot">COLLECTED 2026-07-19 · SOURCES: ADOBE.COM CDN · HELPX/SCENE7 · WIKIMEDIA (BACKUP) · ALL LOCAL, NOTHING PUBLISHED</p>
+</div>
+</body>
+</html>
