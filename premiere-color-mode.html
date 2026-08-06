@@ -479,8 +479,10 @@ document.querySelectorAll('[data-count]').forEach(el=>io.observe(el));
 // mode toggle
 document.querySelectorAll('.mode').forEach(m=>m.addEventListener('click',()=>{document.querySelectorAll('.mode').forEach(x=>x.classList.remove('sel'));m.classList.add('sel')}));
 // reveal
-const rio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.style.opacity=1;e.target.style.transform='none';rio.unobserve(e.target)}}),{threshold:.12});
+const show=w=>{w.style.opacity=1;w.style.transform='none'};
+const rio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){show(e.target);rio.unobserve(e.target)}}),{threshold:0,rootMargin:'0px 0px -8% 0px'});
 document.querySelectorAll('section .wrap').forEach(w=>{w.style.opacity=0;w.style.transform='translateY(22px)';w.style.transition='opacity .7s ease,transform .7s ease';rio.observe(w)});
+setTimeout(()=>document.querySelectorAll('section .wrap').forEach(show),2500); // failsafe: never leave content hidden
 </script>
 </body>
 </html>
