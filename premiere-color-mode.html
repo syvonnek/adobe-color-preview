@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Premiere Color Mode — Live, Online Training Conference | Fall 2026 | FMC × Adobe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#262131; --bg-deep:#1c1826; --panel:#2e2840; --panel-2:#332c47;
+    --line:rgba(176,150,255,.14); --grid:rgba(176,150,255,.055);
+    --ink:#f5f3fa; --dim:#a9a1bd; --faint:#726a8a;
+    --spec-red:#ff5b4d; --spec-orange:#ffb03a; --spec-green:#3ddc84; --spec-blue:#3b9dff; --spec-purple:#b98bff; --spec-pink:#ff4da6;
+    --accent:#3b9dff;
+    --spectrum:linear-gradient(90deg,#ff5b4d,#ffb03a,#3ddc84,#3b9dff,#b98bff,#ff4da6);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font:16px/1.6 "Inter",system-ui,sans-serif;-webkit-font-smoothing:antialiased;
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:56px 56px}
+  .mono{font-family:"JetBrains Mono",monospace}
+  h1,h2,h3,.disp{font-family:"Space Grotesk",sans-serif;letter-spacing:-.02em}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 24px}
+  section{padding:96px 0;border-top:1px solid var(--line)}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--spec-blue);margin-bottom:18px}
+  .eyebrow b{color:var(--faint);font-weight:400}
+  h2{font-size:clamp(28px,4.2vw,44px);font-weight:600;line-height:1.12;margin-bottom:14px}
+  .lead{color:var(--dim);max-width:640px;font-size:17px}
+
+  /* partner bar */
+  .partner{background:var(--bg-deep);border-bottom:1px solid var(--line);padding:14px 0;text-align:center}
+  .partner .row{display:flex;align-items:center;justify-content:center;gap:22px;flex-wrap:wrap}
+  .partner .lbl{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--faint)}
+  .partner img{height:26px;display:block}
+  .partner img.pr{height:30px}
+  .spectrum-rule{height:2px;background:var(--spectrum);opacity:.85}
+
+  /* nav */
+  nav{position:sticky;top:0;z-index:50;background:rgba(38,33,49,.86);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .logo{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:19px}
+  .logo span{background:var(--spectrum);-webkit-background-clip:text;background-clip:text;color:transparent}
+  nav ul{display:flex;gap:26px;list-style:none}
+  nav ul a{color:var(--dim);text-decoration:none;font-size:14px}
+  nav ul a:hover{color:var(--ink)}
+  .btn{display:inline-block;background:var(--ink);color:var(--bg-deep);font-weight:600;font-size:15px;padding:13px 26px;border-radius:10px;text-decoration:none;border:none;cursor:pointer;transition:transform .18s,box-shadow .18s}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(185,139,255,.25)}
+  .btn.small{padding:9px 18px;font-size:13.5px;border-radius:8px}
+  .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+
+  /* hero */
+  .hero{padding:110px 0 90px;border-top:none;position:relative;overflow:hidden}
+  .hero .crosses{position:absolute;inset:0;pointer-events:none}
+  .hero h1{font-size:clamp(44px,7.5vw,84px);font-weight:700;line-height:1.04;margin-bottom:18px}
+  .hero h1 .c{background:var(--spectrum);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .tag{font-family:"Space Grotesk",sans-serif;font-size:clamp(20px,2.6vw,27px);color:var(--spec-purple);font-style:italic;margin-bottom:22px}
+  .hero .lead{margin-bottom:30px}
+  .meta{display:flex;gap:26px;flex-wrap:wrap;margin-bottom:36px;color:var(--dim);font-size:14.5px}
+  .meta span::before{content:"◈ ";color:var(--spec-blue)}
+  .ctas{display:flex;gap:14px;flex-wrap:wrap}
+
+  .secnum{color:var(--faint)}
+  /* about */
+  .about-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;margin-top:44px}
+  .about-grid img{width:100%;border-radius:14px;border:1px solid var(--line)}
+  .quote{border-left:3px solid;border-image:var(--spectrum) 1;padding:6px 0 6px 22px;margin:30px 0;font-family:"Space Grotesk",sans-serif;font-size:19px;line-height:1.5}
+  .quote .who{display:block;margin-top:10px;font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.22em;color:var(--faint)}
+  .about-copy p{color:var(--dim);margin-bottom:16px}
+  .about-copy p b{color:var(--ink)}
+
+  /* schedule */
+  .sched{margin-top:44px;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+  .srow{display:grid;grid-template-columns:230px 1fr auto;gap:18px;padding:20px 26px;border-top:1px solid var(--line);background:var(--panel);align-items:center}
+  .srow:first-child{border-top:none}
+  .srow.break{background:var(--bg-deep);color:var(--faint)}
+  .srow .time{font-family:"JetBrains Mono",monospace;font-size:12.5px;color:var(--dim)}
+  .srow .time b{display:block;color:var(--spec-blue);font-weight:500}
+  .srow h3{font-size:17px;font-weight:600}
+  .srow .spk{color:var(--dim);font-size:13.5px;margin-top:2px}
+  .chip{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.14em;padding:5px 11px;border-radius:99px;border:1px solid var(--line);white-space:nowrap}
+  .chip.key{color:var(--spec-orange)} .chip.story{color:var(--spec-pink)} .chip.hands{color:var(--spec-green)} .chip.adv{color:var(--spec-purple)} .chip.qa{color:var(--spec-blue)}
+  .sched-note{margin-top:14px;color:var(--faint);font-size:13px;font-family:"JetBrains Mono",monospace}
+
+  /* instructors */
+  .people{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:44px}
+  .person{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:transform .2s}
+  .person:hover{transform:translateY(-4px)}
+  .person img{width:100%;aspect-ratio:1/1;object-fit:cover;filter:saturate(.92)}
+  .person .pad{padding:20px 22px}
+  .person h3{font-size:19px;margin-bottom:4px}
+  .person .role{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:12px}
+  .person:nth-child(1) .role{color:var(--spec-orange)} .person:nth-child(2) .role{color:var(--spec-blue)} .person:nth-child(3) .role{color:var(--spec-green)}
+  .person p{color:var(--dim);font-size:14px}
+
+  /* why */
+  .why{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:44px}
+  .why .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:24px}
+  .why .n{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--spec-purple);margin-bottom:10px;display:block}
+  .why h3{font-size:17px}
+
+  /* numbers */
+  .nums{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:44px}
+  .num-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:28px;text-align:center}
+  .num-card .big{font-family:"Space Grotesk",sans-serif;font-size:46px;font-weight:700;background:var(--spectrum);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .num-card .lbl{color:var(--dim);font-size:14px;margin-top:6px}
+  .bars{margin-top:22px;display:grid;grid-template-columns:1fr 1fr;gap:26px}
+  .barbox{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:26px}
+  .barbox h3{font-size:15px;margin-bottom:16px;color:var(--dim);font-weight:500}
+  .bar{margin-bottom:12px}
+  .bar .t{display:flex;justify-content:space-between;font-size:13px;color:var(--dim);margin-bottom:5px}
+  .bar .t b{color:var(--ink);font-family:"JetBrains Mono",monospace;font-weight:500}
+  .track{height:6px;background:var(--bg-deep);border-radius:99px;overflow:hidden}
+  .fill{height:100%;border-radius:99px;background:var(--spectrum)}
+
+  /* global */
+  .glob{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:44px}
+  .glob .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:26px;display:flex;gap:16px}
+  .glob .ic{font-size:22px}
+  .glob h3{font-size:16.5px;margin-bottom:6px}
+  .glob p{color:var(--dim);font-size:14px}
+  .cities{margin-top:30px;font-family:"JetBrains Mono",monospace;font-size:12.5px;letter-spacing:.06em;color:var(--faint);text-align:center;line-height:2}
+  .langs{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:18px}
+  .langs span{border:1px solid var(--line);border-radius:99px;padding:7px 15px;font-size:13px;color:var(--dim)}
+
+  /* pricing */
+  .price-card{max-width:520px;margin:44px auto 0;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:38px;position:relative;overflow:hidden}
+  .price-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--spectrum)}
+  .price-card h3{font-size:19px;margin-bottom:6px}
+  .price-card .amt{font-family:"Space Grotesk",sans-serif;font-size:58px;font-weight:700}
+  .price-card .per{color:var(--faint);font-size:13.5px;margin-bottom:22px}
+  .price-card ul{list-style:none;margin-bottom:28px}
+  .price-card li{padding:9px 0;border-top:1px solid var(--line);color:var(--dim);font-size:14.5px}
+  .price-card li::before{content:"✓ ";color:var(--spec-green);font-weight:700}
+  .group-note{text-align:center;color:var(--faint);font-size:13.5px;margin-top:18px}
+  .group-note a{color:var(--spec-blue)}
+
+  /* register */
+  .reg{max-width:720px;margin:44px auto 0;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:38px}
+  .reg .subhead{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--dim);margin-bottom:26px;letter-spacing:.04em}
+  .modes{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:26px}
+  .mode{border:1px solid var(--line);border-radius:12px;padding:16px;cursor:pointer}
+  .mode.sel{border-color:var(--spec-blue);background:rgba(59,157,255,.07)}
+  .mode b{display:block;font-size:15px}
+  .mode span{color:var(--dim);font-size:12.5px}
+  .fgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .field{display:flex;flex-direction:column;gap:6px}
+  .field.full{grid-column:1/-1}
+  .field label{font-size:12.5px;color:var(--dim);font-family:"JetBrains Mono",monospace;letter-spacing:.06em}
+  .field input,.field select{background:var(--bg-deep);border:1px solid var(--line);border-radius:9px;padding:12px 14px;color:var(--ink);font:14.5px "Inter",sans-serif}
+  .field input:focus,.field select:focus{outline:none;border-color:var(--spec-purple)}
+  .reg .btn{width:100%;margin-top:24px;text-align:center}
+  .secure{text-align:center;color:var(--faint);font-size:12.5px;margin-top:14px}
+  .secure a{color:var(--spec-blue)}
+
+  /* contact + footer */
+  .contact-card{max-width:640px;margin:44px auto 0;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:34px;display:flex;gap:22px;align-items:center}
+  .avatar{flex:0 0 auto;width:74px;height:74px;border-radius:50%;background:var(--spectrum);display:flex;align-items:center;justify-content:center;font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:24px;color:#1c1826}
+  .contact-card h3{font-size:20px}
+  .contact-card .role{color:var(--dim);font-size:14px;margin:3px 0 8px}
+  .contact-card p{color:var(--faint);font-size:13.5px;margin-bottom:8px}
+  .contact-card a{color:var(--spec-blue);text-decoration:none;font-weight:600}
+  footer{border-top:1px solid var(--line);padding:36px 0;background:var(--bg-deep)}
+  footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
+  footer .lbl{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.18em;color:var(--faint)}
+  footer img{height:22px;opacity:.9}
+  footer .logos{display:flex;align-items:center;gap:18px}
+
+  @media(max-width:880px){
+    .about-grid,.bars{grid-template-columns:1fr}
+    .people,.why,.nums{grid-template-columns:1fr}
+    .glob{grid-template-columns:1fr}
+    .srow{grid-template-columns:1fr;gap:8px}
+    nav ul{display:none}
+    section{padding:64px 0}
+    .fgrid{grid-template-columns:1fr}
+    .modes{grid-template-columns:1fr}
+    .contact-card{flex-direction:column;text-align:center}
+  }
+  @media(min-width:2000px){.wrap{max-width:1320px} body{font-size:17px}}
+</style>
+</head>
+<body>
+
+<div class="partner">
+  <div class="row">
+    <span class="lbl">Produced by</span>
+    <img src="assets/fmc-logo.png" alt="FMC">
+    <span class="lbl">In cooperation with</span>
+    <img src="assets/adobe-wordmark-red-OFFICIAL-CDN.svg" alt="Adobe" style="height:22px">
+    <img class="pr" src="assets/premiere-pro-tile-OFFICIAL-CDN.svg" alt="Adobe Premiere Pro">
+  </div>
+</div>
+<div class="spectrum-rule"></div>
+
+<nav>
+  <div class="wrap">
+    <div class="logo">Color<span>Mode</span></div>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#schedule">Schedule</a></li>
+      <li><a href="#instructors">Instructors</a></li>
+      <li><a href="#numbers">Numbers</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+    </ul>
+    <a class="btn small" href="#register">Register — $129</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">● Live, Online Training Conference · Fall 2026</div>
+    <h1>Premiere <span class="c">Color Mode</span></h1>
+    <div class="tag">Add color to your life.</div>
+    <p class="lead">For editors ready to master color in Premiere. Learn from the people who built it.</p>
+    <div class="meta">
+      <span>10 AM – 4 PM ET</span>
+      <span>Live on Zoom</span>
+      <span>Global · Multi-language</span>
+    </div>
+    <div class="ctas">
+      <a class="btn" href="#register">Register — $129</a>
+      <a class="btn ghost" href="#schedule">See the program</a>
+    </div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="wrap">
+    <div class="eyebrow"><b>01 —</b> About the Event</div>
+    <h2>Color correction, reimagined for storytellers.</h2>
+    <p class="lead">Adobe's new Color Mode is a breakthrough — making color correction accessible and creative for editors who've always seen it as too technical.</p>
+    <div class="about-grid">
+      <div class="about-copy">
+        <p>For decades, color correction belonged to specialists. Editors felt it was too technical, too intimidating — a world apart from the creative flow of storytelling. <b>Adobe Color Mode changes everything.</b></p>
+        <p>Introduced in beta at PostProduction World, this new mode brings intuitive, powerful color grading directly into Premiere Pro — right where editors already live and work.</p>
+        <div class="quote">
+          "Color is the ultimate storytelling tool. For the first time, editors don't need to be colorists to use it that way."
+          <span class="who">— Adobe Color Mode Beta User</span>
+        </div>
+        <p class="mono" style="font-size:12.5px;color:var(--faint)">Live on Zoom · Fall 2026 · 10 AM – 4 PM ET</p>
+      </div>
+      <div>
+        <img src="assets/premiere-screenshot.png" alt="Premiere Color Mode interface">
+        <img src="assets/screenshot-2.png" alt="Premiere Color Mode color grading" style="margin-top:16px">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="schedule">
+  <div class="wrap">
+    <div class="eyebrow"><b>02 —</b> Day Schedule</div>
+    <h2>A full day of color mastery.</h2>
+    <p class="lead">Full day of cutting edge, instructor-led training.</p>
+    <div class="sched">
+      <div class="srow">
+        <div class="time"><b>10:00 – 10:30 AM ET</b>Live on Zoom</div>
+        <div><h3>Welcome &amp; Opening Keynote</h3><div class="spk">Eran Stern + All Speakers</div></div>
+        <span class="chip key">KEYNOTE</span>
+      </div>
+      <div class="srow">
+        <div class="time"><b>10:30 – 11:30 AM ET</b>Live on Zoom</div>
+        <div><h3>Session 1 — Color as a Storytelling Tool</h3><div class="spk">Alexis Van Hurkman</div></div>
+        <span class="chip story">STORYTELLING</span>
+      </div>
+      <div class="srow">
+        <div class="time"><b>11:30 AM – 12:30 PM ET</b>Live on Zoom</div>
+        <div><h3>Session 2 — Introduction to Color Mode</h3><div class="spk">Eran Stern</div></div>
+        <span class="chip hands">HANDS-ON WORKFLOW</span>
+      </div>
+      <div class="srow break">
+        <div class="time"><b>12:30 – 1:00 PM ET</b></div>
+        <div><h3 style="color:var(--faint)">☕ Break</h3></div><span></span>
+      </div>
+      <div class="srow">
+        <div class="time"><b>1:00 – 2:15 PM ET</b>Live on Zoom</div>
+        <div><h3>Session 3 — Workflow Deep Dive: From Log to Look</h3><div class="spk">Luisa Winters</div></div>
+        <span class="chip hands">HANDS-ON WORKFLOW</span>
+      </div>
+      <div class="srow">
+        <div class="time"><b>2:15 – 3:15 PM ET</b>Live on Zoom</div>
+        <div><h3>Session 4 — Advanced Techniques &amp; Creative Grading Styles</h3><div class="spk">Eran Stern + Alexis Van Hurkman</div></div>
+        <span class="chip adv">ADVANCED TECHNIQUE</span>
+      </div>
+      <div class="srow break">
+        <div class="time"><b>3:15 – 3:25 PM ET</b></div>
+        <div><h3 style="color:var(--faint)">☕ Break</h3></div><span></span>
+      </div>
+      <div class="srow">
+        <div class="time"><b>3:25 – 4:00 PM ET</b>Live on Zoom</div>
+        <div><h3>Open Q&amp;A and Closing Remarks</h3><div class="spk">All Speakers</div></div>
+        <span class="chip qa">LIVE Q&amp;A</span>
+      </div>
+    </div>
+    <div class="sched-note">Fall 2026 · Date to be announced · 10 AM–4 PM ET · Live on Zoom</div>
+  </div>
+</section>
+
+<section id="instructors">
+  <div class="wrap">
+    <div class="eyebrow"><b>03 —</b> Meet Your Instructors</div>
+    <h2>World-class expertise. Real working professionals.</h2>
+    <p class="lead">Every instructor is an Adobe-certified expert with years of hands-on experience in professional production environments.</p>
+    <div class="people">
+      <div class="person">
+        <img src="assets/eran-stern.png" alt="Eran Stern">
+        <div class="pad">
+          <h3>Eran Stern</h3>
+          <div class="role">Program Manager · Adobe Certified Expert</div>
+          <p>International Adobe trainer and educator with decades of experience in motion graphics and post-production. Eran has trained thousands of editors globally and is one of Adobe's most recognized evangelists for Premiere Pro and After Effects. He leads this event as Program Manager.</p>
+        </div>
+      </div>
+      <div class="person">
+        <img src="assets/alexis.png" alt="Alexis Van Hurkman">
+        <div class="pad">
+          <h3>Alexis Van Hurkman</h3>
+          <div class="role">Principal Product Manager of Color at Adobe</div>
+          <p>Colorist, writer/director, educator — and the person building the future of color at Adobe. Alexis contributed extensively to DaVinci Resolve (versions 9–17) before joining Adobe, and brings unmatched depth to the intersection of creative vision and color technology.</p>
+        </div>
+      </div>
+      <div class="person">
+        <img src="assets/luisa-winters.png" alt="Luisa Winters">
+        <div class="pad">
+          <h3>Luisa Winters</h3>
+          <div class="role">Adobe Certified Expert · Editor &amp; Educator</div>
+          <p>Award-winning editor, Adobe Certified Expert, and beloved educator whose approachable style has made complex post-production workflows accessible to thousands. Luisa brings warmth, precision, and deep Premiere expertise to every session she leads.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="why">
+  <div class="wrap">
+    <div class="eyebrow"><b>04 —</b> Why Attend</div>
+    <h2>One day. Total transformation.</h2>
+    <div class="why">
+      <div class="card"><span class="n">01</span><h3>Learn live, no shortcuts</h3></div>
+      <div class="card"><span class="n">02</span><h3>Ask anything, get real answers</h3></div>
+      <div class="card"><span class="n">03</span><h3>Color as a storytelling tool</h3></div>
+      <div class="card"><span class="n">04</span><h3>Built for the entire world</h3></div>
+      <div class="card"><span class="n">05</span><h3>Beta features, right now</h3></div>
+      <div class="card"><span class="n">06</span><h3>30 years, one standard</h3></div>
+    </div>
+  </div>
+</section>
+
+<section id="numbers">
+  <div class="wrap">
+    <div class="eyebrow"><b>05 —</b> By the Numbers</div>
+    <h2>FMC is trusted by creatives worldwide for decades.</h2>
+    <div class="nums">
+      <div class="num-card"><div class="big" data-count="20" data-suffix="+">0+</div><div class="lbl">Years training Adobe users</div></div>
+      <div class="num-card"><div class="big" data-count="25" data-suffix="K+">0K+</div><div class="lbl">Content creators &amp; broadcasters trained</div></div>
+      <div class="num-card"><div class="big">91%</div><div class="lbl">Average Attendee Satisfaction</div></div>
+    </div>
+    <div class="bars">
+      <div class="barbox">
+        <h3>Rated across content quality, instructors, pace, and value.</h3>
+        <div class="bar"><div class="t"><span>Content</span><b>93%</b></div><div class="track"><div class="fill" style="width:93%"></div></div></div>
+        <div class="bar"><div class="t"><span>Instructors</span><b>91%</b></div><div class="track"><div class="fill" style="width:91%"></div></div></div>
+        <div class="bar"><div class="t"><span>Pace</span><b>88%</b></div><div class="track"><div class="fill" style="width:88%"></div></div></div>
+        <div class="bar"><div class="t"><span>Value</span><b>94%</b></div><div class="track"><div class="fill" style="width:94%"></div></div></div>
+      </div>
+      <div class="barbox">
+        <h3>Global Attendee Breakdown — past FMC events</h3>
+        <div class="bar"><div class="t"><span>Americas</span><b>42%</b></div><div class="track"><div class="fill" style="width:42%"></div></div></div>
+        <div class="bar"><div class="t"><span>Europe</span><b>28%</b></div><div class="track"><div class="fill" style="width:28%"></div></div></div>
+        <div class="bar"><div class="t"><span>Asia Pacific</span><b>18%</b></div><div class="track"><div class="fill" style="width:18%"></div></div></div>
+        <div class="bar"><div class="t"><span>Middle East &amp; Africa</span><b>12%</b></div><div class="track"><div class="fill" style="width:12%"></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="global">
+  <div class="wrap">
+    <div class="eyebrow"><b>06 —</b> Global Reach</div>
+    <h2>An event built for the world.</h2>
+    <p class="lead">Color speaks every language. And so does FMC training.</p>
+    <div class="glob">
+      <div class="card"><div class="ic">🔴</div><div><h3>Live on Zoom with Real-Time Captions</h3><p>The full event streams live on Zoom with closed captions in multiple languages, so wherever you are in the world, you follow along in real time.</p></div></div>
+      <div class="card"><div class="ic">🌐</div><div><h3>Professionally Dubbed Recordings</h3><p>Post-event recordings are professionally dubbed, not just subtitled, into multiple languages, making this training truly accessible globally.</p></div></div>
+      <div class="card"><div class="ic">🎓</div><div><h3>Decades of Adobe Training Partnership</h3><p>FMC has been providing end-user training for Adobe for decades, working directly with Adobe to deliver curriculum that's always current.</p></div></div>
+      <div class="card"><div class="ic">📹</div><div><h3>Recordings Included</h3><p>All recordings available as part of your registration, so you can join live and enjoy recordings for 180 days after the event.</p></div></div>
+    </div>
+    <div class="cities">New York · Chicago · Los Angeles · London · Paris · Berlin · Dubai · Mumbai · Tokyo · Sydney · São Paulo · Cairo</div>
+    <div class="langs">
+      <span>🇺🇸 English (Live)</span><span>🇪🇸 Spanish</span><span>🇫🇷 French</span><span>🇩🇪 German</span><span>🇯🇵 Japanese</span><span>🇧🇷 Portuguese</span><span>🇮🇹 Italian</span><span>+ More TBD</span>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <div class="eyebrow"><b>07 —</b> Pricing</div>
+    <h2>Simple, transparent pricing.</h2>
+    <p class="lead">One price. Attend live or watch on your own schedule.</p>
+    <div class="price-card">
+      <h3>Full Access Pass</h3>
+      <div class="amt">$129</div>
+      <div class="per">per person · one-time</div>
+      <ul>
+        <li>Attend live sessions from 10 AM – 4 PM ET</li>
+        <li>Watch recordings post-event for 180 days</li>
+        <li>Full day of instructor-led training</li>
+        <li>Live Q&amp;A with all speakers</li>
+        <li>Live closed captions (CC)</li>
+        <li>Foreign-language dubbing available on request</li>
+        <li>Event materials &amp; resources</li>
+      </ul>
+      <a class="btn" href="#register" style="display:block;text-align:center">Register Now</a>
+    </div>
+    <div class="group-note">Group discounts for teams of 5+. Contact <a href="mailto:eliseo@fmctraining.com">eliseo@fmctraining.com</a></div>
+  </div>
+</section>
+
+<section id="register">
+  <div class="wrap">
+    <div class="eyebrow"><b>08 —</b> Registration</div>
+    <h2>Secure your spot.</h2>
+    <div class="reg">
+      <h3 style="font-size:21px;margin-bottom:6px">Register for Color Mode 2026</h3>
+      <div class="subhead">Fall 2026 · Date to be announced · Online via Zoom · 10 AM – 4 PM ET</div>
+      <div class="modes">
+        <div class="mode sel"><b>Attend Live — $129</b><span>Live on Zoom + recording included</span></div>
+        <div class="mode"><b>Watch Recording — $129</b><span>On-demand, CC + dubbing on request</span></div>
+      </div>
+      <div class="fgrid">
+        <div class="field"><label>First Name *</label><input type="text"></div>
+        <div class="field"><label>Last Name *</label><input type="text"></div>
+        <div class="field full"><label>Email Address *</label><input type="email"></div>
+        <div class="field"><label>Company</label><input type="text"></div>
+        <div class="field"><label>Job Title</label><input type="text"></div>
+        <div class="field"><label>Country</label><select><option>Select country…</option><option>United States</option><option>Canada</option><option>United Kingdom</option><option>Germany</option><option>France</option><option>Spain</option><option>Italy</option><option>Japan</option><option>Brazil</option><option>Australia</option><option>Mexico</option><option>Other</option></select></div>
+        <div class="field"><label>Recording Language</label><select><option>English</option><option>Spanish</option><option>French</option><option>German</option><option>Italian</option><option>Japanese</option><option>Portuguese</option></select></div>
+      </div>
+      <button class="btn">Complete Registration — $129</button>
+      <div class="secure">🔒 Secure checkout · Questions? <a href="mailto:eliseo@fmctraining.com">eliseo@fmctraining.com</a></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="eyebrow"><b>09 —</b> Contact</div>
+    <h2>Get in touch.</h2>
+    <div class="contact-card">
+      <div class="avatar">EO</div>
+      <div>
+        <div class="mono" style="font-size:10.5px;letter-spacing:.2em;color:var(--faint);margin-bottom:6px">GENERAL INQUIRIES</div>
+        <h3>Elise O'Brien</h3>
+        <div class="role">Senior Director, Global Events &amp; Operations</div>
+        <p>Registration, group rates, speaker inquiries, sponsorship, accessibility, and event logistics.</p>
+        <a href="mailto:eliseo@fmctraining.com">eliseo@fmctraining.com</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="logos">
+      <img src="assets/fmc-logo.png" alt="FMC">
+      <span class="lbl">×</span>
+      <img src="assets/adobe-wordmark-red-OFFICIAL-CDN.svg" alt="Adobe" style="height:18px">
+    </div>
+    <span class="lbl">Premiere Color Mode · Fall 2026 · FMC × Adobe</span>
+  </div>
+</footer>
+
+<script>
+// count-up on scroll
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;const el=e.target,end=+el.dataset.count,suf=el.dataset.suffix||'';let t0=null;const step=ts=>{t0=t0||ts;const p=Math.min((ts-t0)/1200,1);el.textContent=Math.round(end*(1-Math.pow(1-p,3)))+suf;p<1&&requestAnimationFrame(step)};requestAnimationFrame(step);io.unobserve(el)}),{threshold:.6});
+document.querySelectorAll('[data-count]').forEach(el=>io.observe(el));
+// mode toggle
+document.querySelectorAll('.mode').forEach(m=>m.addEventListener('click',()=>{document.querySelectorAll('.mode').forEach(x=>x.classList.remove('sel'));m.classList.add('sel')}));
+// reveal
+const rio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.style.opacity=1;e.target.style.transform='none';rio.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('section .wrap').forEach(w=>{w.style.opacity=0;w.style.transform='translateY(22px)';w.style.transition='opacity .7s ease,transform .7s ease';rio.observe(w)});
+</script>
+</body>
+</html>
