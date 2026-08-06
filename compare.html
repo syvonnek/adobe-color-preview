@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Side by Side — Original Template vs Premiere Color Mode</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#05060f;--ink:#f2f4fa;--dim:#8b90a5;--line:rgba(255,255,255,.08);--o:#ffb02e;--g:#7ad950}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font:15px/1.5 "Inter",sans-serif;padding:34px 20px}
+  h1{font-size:22px;font-weight:600;text-align:center;margin-bottom:6px}
+  .sub{text-align:center;color:var(--dim);font-size:13.5px;margin-bottom:28px}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:1700px;margin:0 auto}
+  .col h2{font:500 11px "IBM Plex Mono",monospace;letter-spacing:.24em;text-transform:uppercase;color:var(--o);text-align:center;margin-bottom:10px}
+  .frame{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#000;height:78vh}
+  iframe{width:200%;height:200%;transform:scale(.5);transform-origin:0 0;border:0}
+  .receipts{max-width:1100px;margin:40px auto 0}
+  .receipts h2{font:500 11px "IBM Plex Mono",monospace;letter-spacing:.24em;color:var(--o);text-transform:uppercase;margin-bottom:14px;text-align:center}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  th,td{padding:11px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+  th{font:500 10.5px "IBM Plex Mono",monospace;letter-spacing:.14em;color:var(--dim);text-transform:uppercase}
+  td.ok{color:var(--g);font-family:"IBM Plex Mono",monospace;font-size:12px;white-space:nowrap}
+  td code{font:12px "IBM Plex Mono",monospace;color:var(--dim)}
+  .note{color:var(--dim);font-size:12.5px;text-align:center;margin-top:18px}
+  @media(max-width:900px){.cols{grid-template-columns:1fr}.frame{height:60vh}}
+</style>
+</head>
+<body>
+<h1>Original template vs. the rebuilt page</h1>
+<div class="sub">Left: Blueprint Spectrum sample, untouched. Right: Premiere Color Mode, rebuilt on its stylesheet. Scroll each side.</div>
+<div class="cols">
+  <div class="col">
+    <h2>Original — blueprint-spectrum.html</h2>
+    <div class="frame"><iframe src="blueprint-spectrum.html" title="Original template"></iframe></div>
+  </div>
+  <div class="col">
+    <h2>New — premiere-color-mode.html</h2>
+    <div class="frame"><iframe src="premiere-color-mode.html" title="Premiere Color Mode"></iframe></div>
+  </div>
+</div>
+
+<div class="receipts">
+  <h2>Receipts — what is literally shared</h2>
+  <table>
+    <tr><th>Element</th><th>Value (both files)</th><th>Status</th></tr>
+    <tr><td>Font import line</td><td><code>Inter 300/400/500/600 · Instrument Serif italic · IBM Plex Mono 400/500</code> — byte-identical Google Fonts URL</td><td class="ok">IDENTICAL (diff-verified)</td></tr>
+    <tr><td>Background</td><td><code>#05060f</code> navy · fixed blueprint grid 72px, radial mask fade · top light beam</td><td class="ok">IDENTICAL*</td></tr>
+    <tr><td>Headline treatment</td><td>Inter 500, clamp to ~130–150px, -.045em tracking, white→steel vertical gradient, one word in animated spectrum gradient (9s hue loop)</td><td class="ok">IDENTICAL</td></tr>
+    <tr><td>Eyebrows / labels</td><td>IBM Plex Mono, uppercase, .3em+ letterspacing; orange section eyebrows</td><td class="ok">IDENTICAL</td></tr>
+    <tr><td>Serif moments</td><td>Instrument Serif 400 with italic <em>em</em> — section headlines + tagline "Add color to your life."</td><td class="ok">IDENTICAL</td></tr>
+    <tr><td>Buttons</td><td>Pill radius 99 · white fill / ghost border · lift + glow hover</td><td class="ok">IDENTICAL</td></tr>
+    <tr><td>Cards</td><td>Glass <code>rgba(16,19,34,.72)</code>, blur 12, radius 18, corner ticks (5px white squares), deep shadow, staggered rise animation</td><td class="ok">IDENTICAL</td></tr>
+    <tr><td>Spectrum palette</td><td><code>#ff5c39 #ffb02e #7ad950 #4e8df5 #9d6bff #ff4da6</code></td><td class="ok">IDENTICAL</td></tr>
+    <tr><td>Hero cards</td><td>Wheel card kept as-is; harmony rows + swatches repurposed to schedule glance + Log-to-Look</td><td class="ok">SAME COMPONENTS</td></tr>
+  </table>
+  <div class="note">*One deliberate change, per your note: grid lines are tinted purple — <code>rgba(176,150,255,.085)</code> instead of the original white <code>rgba(255,255,255,.06)</code>. Say the word and it reverts.</div>
+</div>
+</body>
+</html>
