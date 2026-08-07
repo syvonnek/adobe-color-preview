@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Premiere Color Mode — v2 | Fall 2026 | FMC × Adobe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#05060f; --ink:#f2f4fa; --dim:#8b90a5; --line:rgba(176,150,255,.085);
+    --hair:rgba(255,255,255,.08); --hair2:rgba(255,255,255,.05);
+    --r:#ff5c39; --o:#ffb02e; --g:#7ad950; --b:#4e8df5; --v:#9d6bff; --p:#ff4da6;
+    --glass:rgba(16,19,34,.72); --gborder:rgba(255,255,255,.09);
+    --spectrum:linear-gradient(100deg,var(--r),var(--o),var(--g),var(--b),var(--v),var(--p));
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font:16px/1.6 "Source Sans 3",sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  .grid-bg{position:fixed;inset:0;pointer-events:none;z-index:0;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:72px 72px;mask-image:radial-gradient(ellipse 90% 80% at 50% 20%,#000 30%,transparent 90%)}
+
+  .spec{background:var(--spectrum);-webkit-background-clip:text;background-clip:text;color:transparent;background-size:200% 100%;animation:hue 9s linear infinite}
+  @keyframes hue{to{background-position:200% 0}}
+
+  /* partner bar + nav (unchanged from v1) */
+  .partner{position:relative;z-index:3;border-bottom:1px solid var(--hair);padding:13px 20px;
+    display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap}
+  .partner .lbl{font:600 10px/1 "Source Sans 3",sans-serif;letter-spacing:.3em;text-transform:uppercase;color:var(--dim)}
+  .partner img{height:26px;display:block}
+  .spectrum-rule{position:relative;z-index:3;height:1px;background:var(--spectrum);opacity:.7}
+  nav{position:relative;z-index:3;display:flex;justify-content:space-between;align-items:center;padding:28px 48px;max-width:1400px;margin:0 auto}
+  .wordmark{display:flex;align-items:center;gap:10px;font-weight:600;letter-spacing:.02em;font-size:15px}
+  .wordmark img{height:24px;border-radius:5px}
+  .wordmark span{color:var(--dim);font-weight:400}
+  nav .links{display:flex;gap:32px;font-size:13.5px;color:var(--dim)}
+  nav .links a{color:inherit;text-decoration:none;transition:color .25s}
+  nav .links a:hover{color:var(--ink)}
+  .cta-s{font-size:13.5px;color:var(--ink);text-decoration:none;border:1px solid rgba(255,255,255,.18);padding:9px 18px;border-radius:99px;transition:.25s;white-space:nowrap}
+  .cta-s:hover{background:rgba(255,255,255,.08)}
+
+  /* ---------- HERO: 12-col split, real UI right ---------- */
+  .hero{position:relative;z-index:2;max-width:1280px;margin:0 auto;padding:7vh 24px 10vh;
+    display:grid;grid-template-columns:5fr 7fr;gap:56px;align-items:center}
+  .hero h1{font-weight:600;font-size:clamp(46px,5.6vw,76px);line-height:1.02;letter-spacing:-.035em}
+  .tagline{font-weight:600;font-style:italic;font-size:clamp(19px,2vw,25px);color:var(--v);margin-top:16px}
+  .hero .sub{margin-top:18px;max-width:42ch;color:var(--dim);font-size:17.5px}
+  .meta{display:flex;gap:10px 24px;flex-wrap:wrap;margin-top:24px;color:var(--dim);font:600 12px "Source Sans 3",sans-serif;letter-spacing:.08em;text-transform:uppercase}
+  .meta span::before{content:"◈ ";color:var(--b)}
+  .ctas{display:flex;gap:14px;margin-top:32px}
+  .btn{position:relative;overflow:hidden;font-size:15px;font-weight:600;text-decoration:none;padding:14px 28px;border-radius:99px;transition:transform .16s ease-out,box-shadow .16s ease-out;border:none;cursor:pointer;display:inline-block}
+  .btn.fill{background:var(--ink);color:#0a0b14}
+  .btn.fill:hover{transform:translateY(-1px)}
+  .btn.fill::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,92,57,.18) 42%,rgba(122,217,80,.16) 50%,rgba(157,107,255,.18) 58%,transparent 70%);transform:translateX(-120%)}
+  .btn.fill:hover::after{animation:sweep .42s ease-out 1}
+  @keyframes sweep{to{transform:translateX(120%)}}
+  .btn.ghost{color:var(--ink);border:1px solid rgba(255,255,255,.18);background:transparent}
+  .btn.ghost:hover{background:rgba(255,255,255,.07)}
+
+  .heroimg{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--hair);
+    box-shadow:0 60px 120px -40px rgba(0,0,0,.9);transform:translateZ(0)}
+  .heroimg img{width:100%;display:block}
+  .heroimg .wipe{position:absolute;inset:0;background-image:var(--wipe-src);background-size:cover;background-position:center;
+    filter:saturate(.22) contrast(.88) brightness(.92);
+    clip-path:inset(0 calc(100% - var(--split,27%)) 0 0);pointer-events:none}
+  .heroimg .divider{position:absolute;top:0;bottom:0;left:var(--split,27%);width:2px;background:#7fe7ff;opacity:.9;
+    box-shadow:0 0 12px rgba(127,231,255,.7);pointer-events:none}
+
+  /* ---------- section shells: EDITORIAL, open ---------- */
+  section{position:relative;z-index:2;padding:11vh 24px;border-top:1px solid var(--hair2)}
+  .shell{max-width:1180px;margin:0 auto}
+  section h2{font-weight:700;font-size:clamp(34px,4.8vw,60px);letter-spacing:-.025em;line-height:1.08;text-align:center}
+  .sec-sub{color:var(--dim);max-width:52ch;margin:22px auto 0;text-align:center;font-size:17px}
+
+  /* full-bleed editorial media */
+  .media{position:relative;margin:56px auto 0;max-width:1240px}
+  .media img{width:100%;display:block;border-radius:14px;border:1px solid var(--hair);box-shadow:0 50px 100px -40px rgba(0,0,0,.85)}
+  .media figcaption{margin-top:14px;text-align:center;color:var(--dim);font-size:13px;letter-spacing:.06em}
+  .about-copy{max-width:660px;margin:40px auto 0;color:var(--dim);font-size:17px}
+  .about-copy p{margin-bottom:16px}
+  .about-copy p b{color:var(--ink);font-weight:600}
+  .quote{border-left:2px solid var(--v);padding:4px 0 4px 22px;margin:28px 0;font-weight:600;font-size:20px;line-height:1.5;font-style:italic;color:var(--ink)}
+  .quote .who{display:block;margin-top:10px;font:600 10px "Source Sans 3",sans-serif;letter-spacing:.24em;color:var(--dim);font-style:normal;text-transform:uppercase}
+
+  /* ---------- schedule: FLAT table ---------- */
+  .sched{margin:56px auto 0;max-width:940px}
+  .srow{position:relative;display:grid;grid-template-columns:230px 1fr auto;gap:18px;align-items:center;
+    padding:22px 18px;border-top:1px solid var(--hair);transition:transform .18s cubic-bezier(.2,.8,.2,1),background .18s}
+  .srow:last-child{border-bottom:1px solid var(--hair)}
+  .srow::before{content:"";position:absolute;left:0;top:50%;width:3px;height:0;background:var(--spectrum);transition:height .18s cubic-bezier(.2,.8,.2,1),top .18s cubic-bezier(.2,.8,.2,1)}
+  .srow:hover{transform:translateY(-2px)}
+  .srow:hover::before{top:15%;height:70%}
+  .srow .time{font:600 12px/1.6 "Source Sans 3",sans-serif;letter-spacing:.06em;color:var(--dim);transition:color .18s}
+  .srow:hover .time b{color:#fff}
+  .srow .time b{display:block;color:var(--b);font-weight:600;transition:color .18s}
+  .srow h3{font-size:16.5px;font-weight:600}
+  .srow .spk{color:var(--dim);font-size:13.5px;margin-top:2px}
+  .srow.break{opacity:.55}
+  .chip{font:600 9.5px "Source Sans 3",sans-serif;letter-spacing:.16em;padding:5px 11px;border-radius:99px;border:1px solid var(--gborder);white-space:nowrap}
+  .chip.key{color:var(--o)} .chip.story{color:var(--p)} .chip.hands{color:var(--g)} .chip.adv{color:var(--v)} .chip.qa{color:var(--b)}
+  .flat-note{margin-top:26px;text-align:center;font:600 11.5px "Source Sans 3",sans-serif;letter-spacing:.12em;color:var(--dim)}
+
+  /* ---------- instructors: featured + 2 ---------- */
+  .people{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:56px;text-align:left}
+  .person.feature{grid-row:span 2}
+  .person{position:relative;overflow:hidden;border-radius:14px;border:1px solid var(--hair);background:#0a0c18}
+  .person img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:top;
+    filter:grayscale(.35) saturate(.92) contrast(1.02);transition:filter .28s cubic-bezier(.25,.46,.45,.94),transform .28s cubic-bezier(.25,.46,.45,.94)}
+  .person.feature img{aspect-ratio:4/5;height:100%;min-height:520px}
+  .person:not(.feature){display:grid;grid-template-columns:180px 1fr}
+  .person:not(.feature) img{aspect-ratio:auto;height:100%}
+  .person:hover img{transform:scale(1.015);filter:grayscale(0) saturate(1) contrast(1.02)}
+  .person::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:24%;background:var(--spectrum);transition:width .28s cubic-bezier(.25,.46,.45,.94)}
+  .person:hover::after{width:100%}
+  .person .pad{padding:22px 24px}
+  .person.feature .pad{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(transparent,rgba(5,6,15,.92) 45%)}
+  .person h3{font-size:19px;font-weight:600;margin-bottom:5px}
+  .person .role{font:600 9.5px "Source Sans 3",sans-serif;letter-spacing:.18em;text-transform:uppercase;margin-bottom:10px}
+  .person.feature .role{color:var(--b)} .person:nth-child(2) .role{color:var(--o)} .person:nth-child(3) .role{color:var(--g)}
+  .person p{color:var(--dim);font-size:13.5px}
+
+  /* ---------- why: numbered 2-col list ---------- */
+  .why{margin:56px auto 0;max-width:940px;display:grid;grid-template-columns:1fr 1fr;gap:0 56px}
+  .why .item{position:relative;border-top:1px solid var(--hair);padding:30px 0 30px 74px}
+  .why .n{position:absolute;left:0;top:26px;font-size:40px;font-weight:700;color:rgba(255,255,255,.14);letter-spacing:-.02em}
+  .why h3{font-size:17.5px;font-weight:600}
+
+  /* ---------- numbers: one open band ---------- */
+  .numband{margin:56px auto 0;max-width:1040px;display:grid;grid-template-columns:1fr 1fr 1fr}
+  .numband .cell{padding:10px 32px;text-align:center;border-left:1px solid var(--hair)}
+  .numband .cell:first-child{border-left:none}
+  .numband .big{font-size:64px;font-weight:700;line-height:1;background:var(--spectrum);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .numband .lbl{color:var(--dim);font-size:14px;margin-top:10px}
+  .bars{margin:56px auto 0;max-width:940px;display:grid;grid-template-columns:1fr 1fr;gap:56px;text-align:left}
+  .barbox h3{font:600 11px "Source Sans 3",sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--hair)}
+  .bar{margin-bottom:13px}
+  .bar .t{display:flex;justify-content:space-between;font-size:13.5px;color:var(--dim);margin-bottom:5px}
+  .bar .t b{color:var(--ink);font-weight:600}
+  .track{height:4px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden}
+  .fill{height:100%;border-radius:99px;background:var(--spectrum)}
+
+  /* ---------- global: open 2x2, line icons ---------- */
+  .glob{margin:56px auto 0;max-width:940px;display:grid;grid-template-columns:1fr 1fr;text-align:left}
+  .gcell{display:flex;gap:18px;padding:40px 36px;border-top:1px solid var(--hair)}
+  .gcell:nth-child(odd){border-right:1px solid var(--hair)}
+  .gcell svg{flex:0 0 auto;width:22px;height:22px;stroke:rgba(255,255,255,.72);stroke-width:1.5;fill:none;transition:stroke .25s}
+  .gcell:nth-child(1):hover svg{stroke:var(--b)} .gcell:nth-child(2):hover svg{stroke:var(--p)}
+  .gcell:nth-child(3):hover svg{stroke:var(--o)} .gcell:nth-child(4):hover svg{stroke:var(--g)}
+  .gcell h3{font-size:16px;font-weight:600;margin-bottom:6px}
+  .gcell p{color:var(--dim);font-size:14px}
+  .cities{margin:44px auto 0;max-width:760px;font:600 12px/2 "Source Sans 3",sans-serif;letter-spacing:.08em;color:var(--dim);text-align:center;text-transform:uppercase}
+  .langs{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:18px}
+  .langs span{border:1px solid var(--gborder);border-radius:99px;padding:7px 16px;font-size:13px;color:var(--dim)}
+
+  /* ---------- conversion cards (kept) ---------- */
+  .price{position:relative;max-width:500px;margin:56px auto 0;background:var(--glass);border:1px solid var(--gborder);border-radius:18px;padding:36px;
+    backdrop-filter:blur(12px);box-shadow:0 40px 80px -30px rgba(0,0,0,.8);text-align:left}
+  .price::before{content:"";position:absolute;top:0;left:18px;right:18px;height:1px;background:var(--spectrum)}
+  .price h3{font-size:17px;font-weight:600;margin-bottom:8px}
+  .price .amt{font-size:60px;font-weight:700;line-height:1}
+  .price .per{font:600 11px "Source Sans 3",sans-serif;letter-spacing:.14em;color:var(--dim);margin:6px 0 22px}
+  .price ul{list-style:none;margin-bottom:26px}
+  .price li{padding:9px 0;border-top:1px solid var(--hair);color:var(--dim);font-size:14px}
+  .price li::before{content:"✓ ";color:var(--g)}
+  .gnote{text-align:center;color:var(--dim);font-size:13px;margin-top:20px}
+  .gnote a{color:var(--b)}
+  .reg{position:relative;max-width:700px;margin:56px auto 0;background:var(--glass);border:1px solid var(--gborder);border-radius:18px;padding:36px;
+    backdrop-filter:blur(12px);box-shadow:0 40px 80px -30px rgba(0,0,0,.8);text-align:left}
+  .reg .rh{font-size:19px;font-weight:600}
+  .reg .rsub{font:600 11px "Source Sans 3",sans-serif;letter-spacing:.1em;color:var(--dim);margin:8px 0 26px}
+  .modes{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px}
+  .mode{border:1px solid var(--gborder);border-radius:12px;padding:16px;cursor:pointer;transition:.2s}
+  .mode.sel{border-color:var(--b);background:rgba(78,141,245,.08)}
+  .mode b{display:block;font-size:14.5px;font-weight:600}
+  .mode span{color:var(--dim);font-size:12px}
+  .fgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .field{display:flex;flex-direction:column;gap:6px}
+  .field.full{grid-column:1/-1}
+  .field label{font:600 10px "Source Sans 3",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+  .field input,.field select{background:rgba(5,6,15,.6);border:1px solid var(--gborder);border-radius:10px;padding:12px 14px;color:var(--ink);font:14px "Source Sans 3",sans-serif}
+  .field input:focus,.field select:focus{outline:none;border-color:var(--v)}
+  .reg .btn{width:100%;margin-top:24px;text-align:center}
+  .secure{text-align:center;color:var(--dim);font-size:12px;margin-top:14px}
+  .secure a{color:var(--b)}
+  .contact{position:relative;max-width:620px;margin:56px auto 0;background:var(--glass);border:1px solid var(--gborder);border-radius:18px;padding:32px;
+    backdrop-filter:blur(12px);display:flex;gap:22px;align-items:center;text-align:left}
+  .avatar{flex:0 0 auto;width:70px;height:70px;border-radius:50%;background:var(--spectrum);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:22px;color:#0a0b14}
+  .contact h3{font-size:19px;font-weight:600}
+  .contact .crole{color:var(--dim);font-size:13.5px;margin:3px 0 8px}
+  .contact p{color:var(--dim);font-size:13px;margin-bottom:8px}
+  .contact a{color:var(--b);text-decoration:none;font-weight:600}
+  .contact .clbl{font:600 9.5px "Source Sans 3",sans-serif;letter-spacing:.24em;color:var(--dim);margin-bottom:6px}
+
+  footer{position:relative;z-index:2;text-align:center;padding:30px 20px;color:#3a3f55;font:600 11px "Source Sans 3",sans-serif;letter-spacing:.2em;border-top:1px solid var(--hair2)}
+  footer .flogos{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:14px}
+  footer img{height:18px;opacity:.85}
+
+  /* entrances */
+  .reveal{opacity:0;transform:translateY(18px);clip-path:inset(6% 0 0 0);
+    transition:opacity .65s cubic-bezier(.16,1,.3,1),transform .65s cubic-bezier(.16,1,.3,1),clip-path .65s cubic-bezier(.16,1,.3,1)}
+  .reveal.in{opacity:1;transform:none;clip-path:inset(0 0 0 0)}
+
+  @media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation:none!important;transition:opacity .3s ease!important;transform:none!important}
+    .reveal{clip-path:none;opacity:0}
+    .reveal.in{opacity:1}
+    .heroimg .wipe{clip-path:inset(0 100% 0 0)!important}
+    .heroimg .divider{display:none}
+    .btn.fill::after{display:none!important}
+  }
+
+  @media(max-width:960px){
+    .hero{grid-template-columns:1fr;gap:40px;padding-top:5vh;text-align:center}
+    .hero .sub{margin-left:auto;margin-right:auto}
+    .meta,.ctas{justify-content:center}
+    .people{grid-template-columns:1fr}
+    .person.feature{grid-row:auto}
+    .person.feature img{min-height:0}
+    .why{grid-template-columns:1fr}
+    .numband{grid-template-columns:1fr}
+    .numband .cell{border-left:none;border-top:1px solid var(--hair);padding:26px 12px}
+    .numband .cell:first-child{border-top:none}
+    .bars{grid-template-columns:1fr;gap:36px}
+    .glob{grid-template-columns:1fr}
+    .gcell:nth-child(odd){border-right:none}
+    .gcell{padding:28px 4px}
+    .gcell svg{width:28px}
+    .srow{grid-template-columns:1fr;gap:8px}
+    nav{padding:22px 20px}nav .links{display:none}
+    .ctas{flex-direction:column;align-items:center}
+    .btn{white-space:nowrap}
+    .fgrid,.modes{grid-template-columns:1fr}
+    section{padding:9vh 20px}
+    .contact{flex-direction:column;text-align:center}
+    .media{margin-left:-20px;margin-right:-20px}
+    .media img{border-radius:0;border-left:none;border-right:none}
+    .person:not(.feature){grid-template-columns:120px 1fr}
+  }
+  @media(min-width:2200px){.shell,.media{max-width:1440px}.hero{max-width:1440px}}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<div class="partner">
+  <span class="lbl">Powered by</span>
+  <img src="assets/fmc-logo-clean.png" alt="FMC">
+  <span class="lbl">In cooperation with</span>
+  <img src="assets/adobe-wordmark-red-OFFICIAL-CDN.svg" alt="Adobe">
+</div>
+<div class="spectrum-rule"></div>
+
+<nav>
+  <div class="wordmark"><img src="assets/premiere-pro-tile-OFFICIAL-CDN.svg" alt="Pr">Premiere&nbsp;<span>Color Mode</span></div>
+  <div class="links">
+    <a href="#about">About</a><a href="#schedule">Schedule</a><a href="#instructors">Instructors</a><a href="#numbers">Numbers</a><a href="#pricing">Pricing</a>
+  </div>
+  <a class="cta-s" href="#register">Register — $129</a>
+</nav>
+
+<header class="hero">
+  <div>
+    <h1>Premiere<br><span class="spec">Color Mode</span></h1>
+    <div class="tagline">Add color to your life.</div>
+    <p class="sub">For editors ready to master color in Premiere. Learn from the people who built it.</p>
+    <div class="meta">
+      <span>10 AM – 4 PM ET</span>
+      <span>Live on Zoom</span>
+      <span>Global · Multi-language</span>
+    </div>
+    <div class="ctas">
+      <a class="btn fill" href="#register">Register — $129</a>
+      <a class="btn ghost" href="#schedule">See the program</a>
+    </div>
+  </div>
+  <div class="heroimg" id="heroimg" style="--wipe-src:url('assets/adobe-cm-1.png')">
+    <img src="assets/adobe-cm-1.png" alt="Adobe Premiere Color Mode — Jaw Bone Canyon sequence with split grade and Color Mode controls">
+    <div class="wipe"></div>
+    <div class="divider"></div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="shell reveal">
+    <h2>Color correction, reimagined<br><span class="spec">for storytellers.</span></h2>
+    <p class="sec-sub">Adobe's new Color Mode is a breakthrough — making color correction accessible and creative for editors who've always seen it as too technical.</p>
+  </div>
+  <figure class="media reveal">
+    <img src="assets/adobe-cm-2.png" alt="Before/after split grade with vectorscope overlay — Premiere Color Mode">
+    <figcaption>ONE GRADE. TWO WORLDS. — PREMIERE COLOR MODE, SPLIT VIEW WITH VECTORSCOPE</figcaption>
+  </figure>
+  <div class="about-copy reveal">
+    <p>For decades, color correction belonged to specialists. Editors felt it was too technical, too intimidating — a world apart from the creative flow of storytelling. <b>Adobe Color Mode changes everything.</b></p>
+    <p>Introduced in beta at PostProduction World, this new mode brings intuitive, powerful color grading directly into Premiere Pro — right where editors already live and work.</p>
+    <div class="quote">
+      "Color is the ultimate storytelling tool. For the first time, editors don't need to be colorists to use it that way."
+      <span class="who">— Adobe Color Mode Beta User</span>
+    </div>
+  </div>
+</section>
+
+<section id="schedule">
+  <div class="shell reveal">
+    <h2>A full day of <span class="spec">color mastery.</span></h2>
+    <p class="sec-sub">Full day of cutting edge, instructor-led training.</p>
+  </div>
+  <figure class="media reveal" style="max-width:1000px">
+    <img src="assets/adobe-cm-4.png" alt="Waveform and exposure comparison — Premiere Color Mode">
+  </figure>
+  <div class="sched reveal">
+    <div class="srow">
+      <div class="time"><b>10:00 – 10:30 AM ET</b>LIVE ON ZOOM</div>
+      <div><h3>Welcome &amp; Opening Keynote</h3><div class="spk">Eran Stern + All Speakers</div></div>
+      <span class="chip key">KEYNOTE</span>
+    </div>
+    <div class="srow">
+      <div class="time"><b>10:30 – 11:30 AM ET</b>LIVE ON ZOOM</div>
+      <div><h3>Session 1 — Color as a Storytelling Tool</h3><div class="spk">Alexis Van Hurkman</div></div>
+      <span class="chip story">STORYTELLING</span>
+    </div>
+    <div class="srow">
+      <div class="time"><b>11:30 AM – 12:30 PM ET</b>LIVE ON ZOOM</div>
+      <div><h3>Session 2 — Introduction to Color Mode</h3><div class="spk">Eran Stern</div></div>
+      <span class="chip hands">HANDS-ON WORKFLOW</span>
+    </div>
+    <div class="srow break">
+      <div class="time"><b>12:30 – 1:00 PM ET</b></div>
+      <div><h3 style="color:var(--dim);font-weight:400">☕ Break</h3></div><span></span>
+    </div>
+    <div class="srow">
+      <div class="time"><b>1:00 – 2:15 PM ET</b>LIVE ON ZOOM</div>
+      <div><h3>Session 3 — Workflow Deep Dive: From Log to Look</h3><div class="spk">Luisa Winters</div></div>
+      <span class="chip hands">HANDS-ON WORKFLOW</span>
+    </div>
+    <div class="srow">
+      <div class="time"><b>2:15 – 3:15 PM ET</b>LIVE ON ZOOM</div>
+      <div><h3>Session 4 — Advanced Techniques &amp; Creative Grading Styles</h3><div class="spk">Eran Stern + Alexis Van Hurkman</div></div>
+      <span class="chip adv">ADVANCED TECHNIQUE</span>
+    </div>
+    <div class="srow break">
+      <div class="time"><b>3:15 – 3:25 PM ET</b></div>
+      <div><h3 style="color:var(--dim);font-weight:400">☕ Break</h3></div><span></span>
+    </div>
+    <div class="srow">
+      <div class="time"><b>3:25 – 4:00 PM ET</b>LIVE ON ZOOM</div>
+      <div><h3>Open Q&amp;A and Closing Remarks</h3><div class="spk">All Speakers</div></div>
+      <span class="chip qa">LIVE Q&amp;A</span>
+    </div>
+  </div>
+  <div class="flat-note">FALL 2026 · DATE TO BE ANNOUNCED · 10 AM–4 PM ET · LIVE ON ZOOM</div>
+</section>
+
+<section id="instructors">
+  <div class="shell reveal">
+    <h2>World-class expertise.<br><span class="spec">Real working professionals.</span></h2>
+    <p class="sec-sub">Every instructor is an Adobe-certified expert with years of hands-on experience in professional production environments.</p>
+    <div class="people">
+      <div class="person feature">
+        <img src="assets/alexis-mono.png" alt="Alexis Van Hurkman">
+        <div class="pad">
+          <h3>Alexis Van Hurkman</h3>
+          <div class="role">Principal Product Manager of Color at Adobe</div>
+          <p>Colorist, writer/director, educator — and the person building the future of color at Adobe. Alexis contributed extensively to DaVinci Resolve (versions 9–17) before joining Adobe, and brings unmatched depth to the intersection of creative vision and color technology.</p>
+        </div>
+      </div>
+      <div class="person">
+        <img src="assets/eran-mono.png" alt="Eran Stern">
+        <div class="pad">
+          <h3>Eran Stern</h3>
+          <div class="role">Program Manager · Adobe Certified Expert</div>
+          <p>International Adobe trainer and educator with decades of experience in motion graphics and post-production. One of Adobe's most recognized evangelists for Premiere Pro and After Effects. He leads this event as Program Manager.</p>
+        </div>
+      </div>
+      <div class="person">
+        <img src="assets/luisa-mono.png" alt="Luisa Winters">
+        <div class="pad">
+          <h3>Luisa Winters</h3>
+          <div class="role">Adobe Certified Expert · Editor &amp; Educator</div>
+          <p>Award-winning editor, Adobe Certified Expert, and beloved educator whose approachable style has made complex post-production workflows accessible to thousands.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="why">
+  <div class="shell reveal">
+    <h2>One day. <span class="spec">Total transformation.</span></h2>
+    <div class="why">
+      <div class="item"><span class="n">01</span><h3>Learn live, no shortcuts</h3></div>
+      <div class="item"><span class="n">02</span><h3>Ask anything, get real answers</h3></div>
+      <div class="item"><span class="n">03</span><h3>Color as a storytelling tool</h3></div>
+      <div class="item"><span class="n">04</span><h3>Built for the entire world</h3></div>
+      <div class="item"><span class="n">05</span><h3>Beta features, right now</h3></div>
+      <div class="item"><span class="n">06</span><h3>30 years, one standard</h3></div>
+    </div>
+  </div>
+</section>
+
+<section id="numbers">
+  <div class="shell reveal">
+    <h2>Trusted by creatives worldwide<br><span class="spec">for decades.</span></h2>
+    <div class="numband">
+      <div class="cell"><div class="big" data-count="20" data-suffix="+">0+</div><div class="lbl">Years training Adobe users</div></div>
+      <div class="cell"><div class="big" data-count="25" data-suffix="K+">0K+</div><div class="lbl">Content creators &amp; broadcasters trained</div></div>
+      <div class="cell"><div class="big">91%</div><div class="lbl">Average Attendee Satisfaction</div></div>
+    </div>
+    <div class="bars">
+      <div class="barbox">
+        <h3>Rated across content, instructors, pace, value</h3>
+        <div class="bar"><div class="t"><span>Content</span><b>93%</b></div><div class="track"><div class="fill" style="width:93%"></div></div></div>
+        <div class="bar"><div class="t"><span>Instructors</span><b>91%</b></div><div class="track"><div class="fill" style="width:91%"></div></div></div>
+        <div class="bar"><div class="t"><span>Pace</span><b>88%</b></div><div class="track"><div class="fill" style="width:88%"></div></div></div>
+        <div class="bar"><div class="t"><span>Value</span><b>94%</b></div><div class="track"><div class="fill" style="width:94%"></div></div></div>
+      </div>
+      <div class="barbox">
+        <h3>Global attendee breakdown · past FMC events</h3>
+        <div class="bar"><div class="t"><span>Americas</span><b>42%</b></div><div class="track"><div class="fill" style="width:42%"></div></div></div>
+        <div class="bar"><div class="t"><span>Europe</span><b>28%</b></div><div class="track"><div class="fill" style="width:28%"></div></div></div>
+        <div class="bar"><div class="t"><span>Asia Pacific</span><b>18%</b></div><div class="track"><div class="fill" style="width:18%"></div></div></div>
+        <div class="bar"><div class="t"><span>Middle East &amp; Africa</span><b>12%</b></div><div class="track"><div class="fill" style="width:12%"></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="global">
+  <div class="shell reveal">
+    <h2>An event built <span class="spec">for the world.</span></h2>
+    <p class="sec-sub">Color speaks every language. And so does FMC training.</p>
+  </div>
+  <figure class="media reveal" style="max-width:1000px">
+    <img src="assets/adobe-cm-3.png" alt="Before/after tone curve grade — Premiere Color Mode">
+  </figure>
+  <div class="shell reveal">
+    <div class="glob">
+      <div class="gcell">
+        <svg viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M7.5 12.2c0-1.2.8-2 1.9-2 .7 0 1.2.3 1.5.8M7.5 12.2c0 1.2.8 2 1.9 2 .7 0 1.2-.3 1.5-.8M13.5 12.2c0-1.2.8-2 1.9-2 .7 0 1.2.3 1.5.8M13.5 12.2c0 1.2.8 2 1.9 2 .7 0 1.2-.3 1.5-.8"/></svg>
+        <div><h3>Live on Zoom with Real-Time Captions</h3><p>The full event streams live on Zoom with closed captions in multiple languages, so wherever you are in the world, you follow along in real time.</p></div>
+      </div>
+      <div class="gcell">
+        <svg viewBox="0 0 24 24"><path d="M3 12h1.5M6.5 8v8M10 5.5v13M13.5 9v6"/><path d="M16.5 8.5h4a1.5 1.5 0 0 1 1.5 1.5v3.5a1.5 1.5 0 0 1-1.5 1.5h-.6l.1 2.5-2.6-2.5h-.9a1.5 1.5 0 0 1-1.5-1.5V10a1.5 1.5 0 0 1 1.5-1.5Z"/></svg>
+        <div><h3>Professionally Dubbed Recordings</h3><p>Post-event recordings are professionally dubbed, not just subtitled, into multiple languages, making this training truly accessible globally.</p></div>
+      </div>
+      <div class="gcell">
+        <svg viewBox="0 0 24 24"><circle cx="9" cy="12" r="5.5"/><circle cx="15" cy="12" r="5.5"/></svg>
+        <div><h3>Decades of Adobe Training Partnership</h3><p>FMC has been providing end-user training for Adobe for decades, working directly with Adobe to deliver curriculum that's always current.</p></div>
+      </div>
+      <div class="gcell">
+        <svg viewBox="0 0 24 24"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="M2.5 16.5h19M9 16.5V4.5"/><circle cx="9" cy="16.5" r="1.6"/></svg>
+        <div><h3>Recordings Included</h3><p>All recordings available as part of your registration, so you can join live and enjoy recordings for 180 days after the event.</p></div>
+      </div>
+    </div>
+    <div class="cities">New York · Chicago · Los Angeles · London · Paris · Berlin<br>Dubai · Mumbai · Tokyo · Sydney · São Paulo · Cairo</div>
+    <div class="langs">
+      <span>English (Live)</span><span>Spanish</span><span>French</span><span>German</span><span>Japanese</span><span>Portuguese</span><span>Italian</span><span>+ More TBD</span>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="shell reveal">
+    <h2>Simple, transparent pricing.</h2>
+    <p class="sec-sub">One price. Attend live or watch on your own schedule.</p>
+    <div class="price">
+      <h3>Full Access Pass</h3>
+      <div class="amt">$129</div>
+      <div class="per">PER PERSON · ONE-TIME</div>
+      <ul>
+        <li>Attend live sessions from 10 AM – 4 PM ET</li>
+        <li>Watch recordings post-event for 180 days</li>
+        <li>Full day of instructor-led training</li>
+        <li>Live Q&amp;A with all speakers</li>
+        <li>Live closed captions (CC)</li>
+        <li>Foreign-language dubbing available on request</li>
+        <li>Event materials &amp; resources</li>
+      </ul>
+      <a class="btn fill" href="#register" style="display:block;text-align:center">Register Now</a>
+    </div>
+    <div class="gnote">Group discounts for teams of 5+. Contact <a href="mailto:eliseo@fmctraining.com">eliseo@fmctraining.com</a></div>
+  </div>
+</section>
+
+<section id="register">
+  <div class="shell reveal">
+    <h2>Secure your spot.</h2>
+    <div class="reg">
+      <div class="rh">Register for Color Mode 2026</div>
+      <div class="rsub">FALL 2026 · DATE TBA · ONLINE VIA ZOOM · 10 AM – 4 PM ET</div>
+      <div class="modes">
+        <div class="mode sel"><b>Attend Live — $129</b><span>Live on Zoom + recording included</span></div>
+        <div class="mode"><b>Watch Recording — $129</b><span>On-demand, CC + dubbing on request</span></div>
+      </div>
+      <div class="fgrid">
+        <div class="field"><label>First Name *</label><input type="text"></div>
+        <div class="field"><label>Last Name *</label><input type="text"></div>
+        <div class="field full"><label>Email Address *</label><input type="email"></div>
+        <div class="field"><label>Company</label><input type="text"></div>
+        <div class="field"><label>Job Title</label><input type="text"></div>
+        <div class="field"><label>Country</label><select><option>Select country…</option><option>United States</option><option>Canada</option><option>United Kingdom</option><option>Germany</option><option>France</option><option>Spain</option><option>Italy</option><option>Japan</option><option>Brazil</option><option>Australia</option><option>Mexico</option><option>Other</option></select></div>
+        <div class="field"><label>Recording Language</label><select><option>English</option><option>Spanish</option><option>French</option><option>German</option><option>Italian</option><option>Japanese</option><option>Portuguese</option></select></div>
+      </div>
+      <button class="btn fill">Complete Registration — $129</button>
+      <div class="secure">🔒 Secure checkout · Questions? <a href="mailto:eliseo@fmctraining.com">eliseo@fmctraining.com</a></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="shell reveal">
+    <h2>Get in touch.</h2>
+    <div class="contact">
+      <div class="avatar">EO</div>
+      <div>
+        <div class="clbl">GENERAL INQUIRIES</div>
+        <h3>Elise O'Brien</h3>
+        <div class="crole">Senior Director, Global Events &amp; Operations</div>
+        <p>Registration, group rates, speaker inquiries, sponsorship, accessibility, and event logistics.</p>
+        <a href="mailto:eliseo@fmctraining.com">eliseo@fmctraining.com</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="flogos">
+    <img src="assets/fmc-logo-clean.png" alt="FMC">
+    <span>×</span>
+    <img src="assets/adobe-wordmark-red-OFFICIAL-CDN.svg" alt="Adobe" style="height:14px">
+  </div>
+  PREMIERE COLOR MODE · FALL 2026 · FMC × ADOBE
+</footer>
+
+<script>
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// ---- hero grade wipe: load sweep then scroll-linked, pointer offset ±8% ----
+const heroimg=document.getElementById('heroimg');
+if(heroimg&&!reduced){
+  let base=42,pointer=0,target=42,current=27;
+  heroimg.style.setProperty('--split',current+'%');
+  // initial 950ms sweep 27 -> 42
+  const t0=performance.now();
+  const easeOut=t=>1-Math.pow(1-t,3);
+  const intro=ts=>{const p=Math.min((ts-t0)/950,1);current=27+(42-27)*easeOut(p);apply();if(p<1)requestAnimationFrame(intro)};
+  requestAnimationFrame(intro);
+  // scroll-linked 42 -> 68 over first 350px
+  addEventListener('scroll',()=>{const y=Math.min(Math.max(scrollY,0),350);base=42+(68-42)*(y/350);apply()},{passive:true});
+  heroimg.addEventListener('pointermove',e=>{const r=heroimg.getBoundingClientRect();pointer=((e.clientX-r.left)/r.width-.5)*16;apply()});
+  heroimg.addEventListener('pointerleave',()=>{pointer=0;apply()});
+  function apply(){target=Math.min(Math.max(base+pointer,20),80);heroimg.style.setProperty('--split',target+'%')}
+}else if(heroimg){heroimg.style.setProperty('--split','0%')}
+
+// ---- entrances ----
+const rio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');rio.unobserve(e.target)}}),{threshold:0,rootMargin:'0px 0px -8% 0px'});
+document.querySelectorAll('.reveal').forEach(el=>rio.observe(el));
+setTimeout(()=>document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in')),2500);
+
+// ---- count-up ----
+const cio=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;const el=e.target,end=+el.dataset.count,suf=el.dataset.suffix||'';let t0=null;const step=ts=>{t0=t0||ts;const p=Math.min((ts-t0)/1200,1);el.textContent=Math.round(end*(1-Math.pow(1-p,3)))+suf;p<1&&requestAnimationFrame(step)};requestAnimationFrame(step);cio.unobserve(el)}),{threshold:0});
+document.querySelectorAll('[data-count]').forEach(el=>cio.observe(el));
+
+// ---- mode toggle ----
+document.querySelectorAll('.mode').forEach(m=>m.addEventListener('click',()=>{document.querySelectorAll('.mode').forEach(x=>x.classList.remove('sel'));m.classList.add('sel')}));
+</script>
+</body>
+</html>
