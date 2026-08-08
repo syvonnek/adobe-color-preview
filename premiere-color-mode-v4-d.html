@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<!-- MOTION CONCEPT: "The program assembles itself." As chapter 02 scrolls into view, a 2px spectrum
+     baseline draws left-to-right beneath the section head; then each session band's track-color spine
+     draws top-to-bottom in sequence (90ms stagger) while its band slides 24px in from the left edge —
+     the day's conference program rendering in like a timeline export, keynote first, Q&A last.
+     Breaks fade in quietly between draws. One moment, once, scroll-triggered. Not implemented here. -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Premiere Color Mode — Live, online Training Conference | Fall 2026 | FMC × Adobe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#05060f; --band:#0b0916; --band2:#0d0a19; --ink:#f2f4fa; --dim:#8b90a5; --dim2:#6a6f84;
+    --hair:rgba(255,255,255,.09); --hair2:rgba(255,255,255,.05);
+    --r:#ff5c39; --o:#ffb02e; --g:#7ad950; --b:#4e8df5; --v:#9d6bff; --p:#ff4da6;
+    --spectrum:linear-gradient(100deg,var(--r),var(--o),var(--g),var(--b),var(--v),var(--p));
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth;scroll-padding-top:88px}
+  html,body{overflow-x:hidden}
+  body{background:var(--bg);color:var(--ink);font:16px/1.6 "Source Sans 3",sans-serif;-webkit-font-smoothing:antialiased}
+  img{display:block}
+  a{color:inherit}
+  .shell{width:100%;max-width:1440px;margin:0 auto;padding-left:80px;padding-right:80px}
+  .spec{background:var(--spectrum);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .caps{font-weight:600;text-transform:uppercase;letter-spacing:.24em}
+
+  /* ---------- partner bar ---------- */
+  .partner{border-bottom:1px solid var(--hair2);padding:12px 20px;display:flex;align-items:center;justify-content:center;gap:20px}
+  .partner .lbl{font-size:10px;line-height:1;color:var(--dim)}
+  .partner img{height:24px}
+  .spectrum-rule{height:1px;background:var(--spectrum);opacity:.75}
+
+  /* ---------- sticky nav (register affordance #1) ---------- */
+  nav{position:sticky;top:0;z-index:60;background:rgba(5,6,15,.86);backdrop-filter:blur(14px);border-bottom:1px solid var(--hair2)}
+  .navin{display:flex;justify-content:space-between;align-items:center;height:68px}
+  .wordmark{display:flex;align-items:center;gap:11px;font-weight:600;font-size:15.5px;letter-spacing:.02em}
+  .wordmark img{height:26px;border-radius:5px}
+  .wordmark span{color:var(--dim);font-weight:400}
+  .navlinks{display:flex;gap:34px;font-size:13.5px;color:var(--dim)}
+  .navlinks a{text-decoration:none;transition:color .22s}
+  .navlinks a:hover{color:var(--ink)}
+  .cta{display:inline-block;font-size:14.5px;font-weight:600;text-decoration:none;color:#0a0b14;background:var(--ink);
+    padding:11px 24px;border-radius:99px;border:none;cursor:pointer;transition:transform .16s ease-out,box-shadow .16s ease-out;white-space:nowrap}
+  .cta:hover{transform:translateY(-1px);box-shadow:0 10px 30px -12px rgba(255,255,255,.35)}
+  .cta.ghost{background:transparent;color:var(--ink);border:1px solid rgba(255,255,255,.24);box-shadow:none}
+  .cta.ghost:hover{background:rgba(255,255,255,.07)}
+
+  /* ---------- HERO: program-first, MAX confidence ---------- */
+  .hero{position:relative;padding-top:72px}
+  .kicker{display:flex;align-items:center;gap:12px;font-size:12.5px;color:var(--dim);margin-bottom:30px}
+  .kicker::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--o)}
+  .hero h1{font-weight:700;font-size:144px;line-height:.94;letter-spacing:-.045em}
+  .hero h1 .spec{display:block;width:max-content;padding-bottom:.06em}
+  .tagline{font-weight:600;font-style:italic;font-size:30px;color:var(--v);margin-top:26px}
+  /* event facts at display size */
+  .facts{margin-top:60px;border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+  .factsin{display:grid;grid-template-columns:1fr 1fr 1fr auto;align-items:center;gap:0}
+  .fact{padding:30px 36px 30px 0;font-weight:600;font-size:27px;letter-spacing:-.015em;border-right:1px solid var(--hair2)}
+  .fact+.fact{padding-left:36px}
+  .facts .cta{margin-left:44px}
+  /* evidence: cm-1 at 772, bleeding to the right edge */
+  .evidence{display:grid;grid-template-columns:1fr 772px;align-items:end;gap:64px;margin-top:76px}
+  .evidence .lead{padding:0 0 66px 80px;max-width:560px}
+  .evidence .lead p{font-size:23px;line-height:1.5;color:var(--dim);max-width:24ch}
+  .evidence .lead p b{color:var(--ink);font-weight:600}
+  .evidence .scroll{margin-top:44px;font-size:11px;color:var(--dim2)}
+  .evfig{width:772px;justify-self:end}
+  .evfig img{width:772px;border:1px solid var(--hair);border-right:none;border-bottom:none;border-radius:14px 0 0 0;
+    box-shadow:0 -40px 120px -50px rgba(78,141,245,.25),0 60px 120px -40px rgba(0,0,0,.9)}
+
+  /* ---------- chapter marker (shared) ---------- */
+  section{position:relative}
+  .pad-lg{padding:118px 0 108px}
+  .pad-md{padding:96px 0 88px}
+  .chapter{display:flex;align-items:center;gap:16px;font-size:11.5px;letter-spacing:.28em;text-transform:uppercase;font-weight:600;color:var(--dim);margin-bottom:36px}
+  .chapter::before{content:"";width:44px;height:2px;background:var(--spectrum);opacity:.9}
+  .chapter.ctr{justify-content:center}
+  .chapter.ctr::after{content:"";width:44px;height:2px;background:var(--spectrum);opacity:.9}
+  h2.d1{font-weight:700;font-size:64px;letter-spacing:-.03em;line-height:1.04}
+  h2.d2{font-weight:700;font-size:48px;letter-spacing:-.025em;line-height:1.08}
+  h2.d3{font-weight:700;font-size:36px;letter-spacing:-.02em;line-height:1.12}
+  .sec-sub{color:var(--dim);max-width:52ch;margin-top:18px;font-size:17.5px}
+
+  /* ---------- 01 About: pure editorial, the quote is the image ---------- */
+  .about-lead{color:var(--dim);font-size:22px;line-height:1.55;max-width:44ch;margin-top:24px}
+  .about-cols{display:grid;grid-template-columns:1fr 1fr;gap:88px;margin-top:64px;max-width:1080px}
+  .about-cols p{color:var(--dim);font-size:17px;max-width:54ch}
+  .about-cols p b{color:var(--ink);font-weight:600}
+  .quote{margin:88px auto 0;max-width:980px;text-align:center;font-weight:600;font-style:italic;font-size:42px;line-height:1.32;letter-spacing:-.015em}
+  .quote .who{display:block;margin-top:26px;font-style:normal;font-size:11px;letter-spacing:.26em;text-transform:uppercase;font-weight:600;color:var(--dim)}
+  .about-meta{margin-top:84px;padding-top:22px;border-top:1px solid var(--hair);font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--dim)}
+
+  /* ---------- 02 Schedule: full-width track bands ---------- */
+  .agenda-head{padding:118px 0 56px;background:var(--band)}
+  .legend{display:flex;gap:28px;flex-wrap:wrap;margin-top:32px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--dim)}
+  .legend span{display:flex;align-items:center;gap:9px}
+  .legend i{width:9px;height:9px;border-radius:2px}
+  .lg-key{background:var(--o)} .lg-story{background:var(--p)} .lg-hands{background:var(--g)} .lg-adv{background:var(--v)} .lg-qa{background:var(--b)}
+
+  .tband{position:relative;border-top:1px solid var(--hair2);background:linear-gradient(90deg,var(--tint),transparent 58%)}
+  .tband::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--tc)}
+  .tband:last-of-type{border-bottom:1px solid var(--hair2)}
+  .t-key{--tc:var(--o);--tint:rgba(255,176,46,.06)}
+  .t-story{--tc:var(--p);--tint:rgba(255,77,166,.06)}
+  .t-hands{--tc:var(--g);--tint:rgba(122,217,80,.055)}
+  .t-adv{--tc:var(--v);--tint:rgba(157,107,255,.07)}
+  .t-qa{--tc:var(--b);--tint:rgba(78,141,245,.07)}
+  .tin{display:grid;grid-template-columns:236px 1fr;gap:48px;align-items:center;padding-top:44px;padding-bottom:44px}
+  .tin.has-img{grid-template-columns:236px 1fr 460px;padding-top:52px;padding-bottom:52px}
+  .twhen{font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--dim)}
+  .twhen b{display:block;color:var(--ink);font-size:16.5px;letter-spacing:.02em;font-weight:600;text-transform:none;margin-bottom:6px}
+  .tmain .trk{font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;color:var(--tc);margin-bottom:12px}
+  .tmain h3{font-weight:700;font-size:33px;letter-spacing:-.02em;line-height:1.1}
+  .tmain .spk{color:var(--dim);font-size:15.5px;margin-top:10px}
+  .tfig img{width:460px;border-radius:10px;border:1px solid var(--hair);box-shadow:0 40px 80px -40px rgba(0,0,0,.8)}
+  .tbreak{border-top:1px solid var(--hair2);background:var(--band)}
+  .tbreak .tin{padding-top:20px;padding-bottom:20px;opacity:.55}
+  .tbreak h3{font-weight:400;font-size:16px;color:var(--dim)}
+  .agenda-foot{background:var(--band);padding:40px 0 108px}
+  .flat-note{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--dim)}
+
+  /* ---------- 03 Speakers: the MAX rail ---------- */
+  .people{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:64px}
+  .person{display:flex;flex-direction:column}
+  .pframe{overflow:hidden;border-radius:12px;border:1px solid var(--hair);background:#0a0c18}
+  .pframe img{width:100%;height:452px;object-fit:cover;object-position:center 12%;
+    transition:transform .5s cubic-bezier(.16,1,.3,1)}
+  .person:hover .pframe img{transform:scale(1.025)}
+  .person h3{font-weight:700;font-size:33px;letter-spacing:-.02em;margin-top:26px}
+  .person .role{font-size:13px;letter-spacing:.13em;text-transform:uppercase;font-weight:600;color:var(--ink);opacity:.85;margin-top:9px;line-height:1.7}
+  .person p{color:var(--dim);font-size:14.5px;margin-top:14px;max-width:42ch}
+
+  /* ---------- recurring register bar (locked strings only) ---------- */
+  .regbar{position:relative;background:var(--band2);padding:34px 0}
+  .regbar::before,.regbar::after{content:"";position:absolute;left:0;right:0;height:1px;background:var(--spectrum);opacity:.65}
+  .regbar::before{top:0}.regbar::after{bottom:0}
+  .regbarin{display:flex;align-items:center;justify-content:space-between;gap:32px}
+  .regbar .big{font-weight:700;font-size:30px;letter-spacing:-.02em}
+  .regbar .line{color:var(--dim);font-size:15.5px}
+
+  /* ---------- 04 Why: ghost numerals ---------- */
+  .why{display:grid;grid-template-columns:1fr 1fr;gap:0 96px;margin-top:56px;max-width:1160px}
+  .why .item{position:relative;border-top:1px solid var(--hair);padding:46px 0 46px 108px}
+  .why .n{position:absolute;left:0;top:22px;font-weight:800;font-size:96px;line-height:1;letter-spacing:-.04em;color:rgba(255,255,255,.07);font-variant-numeric:tabular-nums}
+  .why h3{font-weight:600;font-size:27px;letter-spacing:-.015em;line-height:1.2}
+
+  /* ---------- 05 Numbers: proof spread ---------- */
+  .proof{display:grid;grid-template-columns:repeat(3,auto);justify-content:space-between;gap:48px;margin-top:72px;padding-bottom:64px;border-bottom:1px solid var(--hair)}
+  .proof .val{font-weight:800;font-size:132px;line-height:.95;letter-spacing:-.05em;font-variant-numeric:tabular-nums}
+  .proof .lbl{color:var(--dim);font-size:15.5px;margin-top:14px;max-width:24ch}
+  .meters{display:grid;grid-template-columns:1fr 1fr;gap:96px;margin-top:64px}
+  .mlbl{font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;color:var(--dim);margin-bottom:8px}
+  .mnote{color:var(--dim);font-size:13.5px;margin-bottom:26px}
+  .bar+.bar{margin-top:18px}
+  .bar .t{display:flex;justify-content:space-between;font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;color:var(--dim);margin-bottom:8px}
+  .bar .t b{color:var(--ink);font-variant-numeric:tabular-nums}
+  .bar .track{height:3px;background:rgba(255,255,255,.09)}
+  .bar .fill{height:100%;background:var(--b)}
+  .rf1{opacity:1}.rf2{opacity:.78}.rf3{opacity:.56}.rf4{opacity:.34}
+
+  /* ---------- 06 Global ---------- */
+  .glob{margin-top:56px;display:grid;grid-template-columns:1fr 1fr;gap:0 96px;max-width:1160px}
+  .gcell{padding:34px 0;border-top:1px solid var(--hair)}
+  .gcell h3{font-size:18px;font-weight:600;margin-bottom:8px}
+  .gcell p{color:var(--dim);font-size:14.5px;max-width:48ch}
+  .cities{margin-top:80px;padding:30px 0;border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);text-align:center;
+    color:var(--dim);font-weight:600;font-size:15px;letter-spacing:.2em;text-transform:uppercase;line-height:2.3}
+  .langs{margin-top:30px;display:flex;justify-content:center;flex-wrap:wrap;color:var(--dim);font-size:13.5px}
+  .langs span{padding:0 18px;border-left:1px solid var(--hair)}
+  .langs span:first-child{border-left:none;color:var(--ink);font-weight:600}
+
+  /* ---------- 07 Pricing: open climax, not a card ---------- */
+  .price-wrap{position:relative;margin-top:72px;padding-top:56px;max-width:1160px;margin-left:auto;margin-right:auto}
+  .price-wrap::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:var(--spectrum)}
+  .price-grid{display:grid;grid-template-columns:1fr 1fr;gap:96px;align-items:start;text-align:left}
+  .plbl{font-size:12px;letter-spacing:.26em;text-transform:uppercase;font-weight:600;color:var(--dim)}
+  .amt{font-weight:800;font-size:216px;line-height:.92;letter-spacing:-.055em;margin-top:14px;font-variant-numeric:tabular-nums}
+  .per{font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:var(--dim);margin-top:16px}
+  .price-grid .cta{margin-top:42px;font-size:16px;padding:15px 34px}
+  .inc{list-style:none;margin-top:6px}
+  .inc li{padding:15px 0;border-top:1px solid var(--hair2);color:var(--dim);font-size:16px}
+  .inc li:first-child{border-top:none}
+  .inc li::before{content:"— ";color:var(--ink)}
+  .gnote{margin-top:64px;text-align:center;color:var(--dim);font-size:13.5px}
+  .gnote a{color:var(--ink)}
+
+  /* ---------- 08 Registration ---------- */
+  .reg{display:grid;grid-template-columns:380px 1fr;gap:96px;margin-top:64px;max-width:1160px}
+  .rh{font-size:26px;font-weight:700;letter-spacing:-.015em}
+  .rsub{margin-top:14px;font-size:12px;letter-spacing:.15em;text-transform:uppercase;font-weight:600;color:var(--dim);line-height:2}
+  .modelbl{margin-top:44px;font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;color:var(--dim)}
+  .modes{margin-top:16px;display:grid;gap:14px}
+  .mode{border:1px solid var(--hair);border-radius:12px;padding:18px 20px;cursor:pointer;transition:border-color .2s,background .2s}
+  .mode b{display:block;font-size:15.5px}
+  .mode span{color:var(--dim);font-size:13px}
+  .mode.sel{border-color:rgba(255,255,255,.4);background:rgba(255,255,255,.045)}
+  .fgrid{display:grid;grid-template-columns:1fr 1fr;gap:30px 36px}
+  .field.full{grid-column:1/-1}
+  .field label{display:block;font-size:11px;letter-spacing:.15em;text-transform:uppercase;font-weight:600;color:var(--dim);margin-bottom:9px}
+  .field input,.field select{width:100%;background:transparent;border:none;border-bottom:1px solid var(--hair);
+    color:var(--ink);font:15.5px "Source Sans 3",sans-serif;padding:9px 0;outline:none;transition:border-color .2s}
+  .field input:focus,.field select:focus{border-color:rgba(255,255,255,.45)}
+  .field select option{background:#101322}
+  .reg .cta{display:block;width:100%;text-align:center;margin-top:46px;font-size:16px;padding:16px 0}
+  .secure{margin-top:20px;text-align:center;color:var(--dim);font-size:13px}
+  .secure a{color:var(--ink)}
+  .success{display:none;margin-top:46px;border-top:1px solid var(--hair);padding-top:36px;text-align:center}
+  .success h3{font-size:26px;font-weight:700}
+  .success p{color:var(--dim);margin-top:10px}
+
+  /* ---------- 09 Contact ---------- */
+  .contact{margin-top:52px;display:grid;grid-template-columns:340px 1fr;gap:80px;border-top:1px solid var(--hair);padding-top:44px;max-width:1160px}
+  .clbl{font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;font-weight:600;color:var(--dim)}
+  .contact h3{font-size:23px;font-weight:700;margin-top:10px}
+  .crole{color:var(--dim);font-size:14px;margin-top:3px}
+  .contact .desc p{color:var(--dim);font-size:16px;max-width:46ch}
+  .contact .desc a{display:inline-block;margin-top:18px;color:var(--ink);font-weight:600;font-size:16px}
+
+  /* ---------- footer ---------- */
+  footer{border-top:1px solid var(--hair);padding:76px 0 44px;background:var(--band)}
+  .fgrid2{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:56px}
+  .fbrand img{height:22px}
+  .fbrand p{color:var(--dim);font-size:13.5px;margin-top:18px;max-width:38ch}
+  .faddr{color:var(--dim);font-size:13px;margin-top:16px;line-height:1.8}
+  .fsoc{display:flex;gap:14px;margin-top:20px}
+  .fsoc a{width:34px;height:34px;border:1px solid var(--hair);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:border-color .2s}
+  .fsoc a:hover{border-color:rgba(255,255,255,.3)}
+  .fsoc svg{width:15px;height:15px;stroke:var(--dim);stroke-width:1.5;fill:none}
+  .fcol h4{font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:var(--dim);margin-bottom:18px}
+  .fcol a{display:block;color:var(--dim);text-decoration:none;font-size:14px;padding:5px 0;transition:color .2s}
+  .fcol a:hover{color:var(--ink)}
+  .fpartners{margin-top:56px;padding-top:26px;border-top:1px solid var(--hair2);display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+  .fpartners .marks{display:flex;align-items:center;gap:14px}
+  .fpartners .marks img{height:20px}
+  .fpartners .marks img.pr{height:24px;border-radius:5px}
+  .copyright{color:var(--dim);font-size:12.5px}
+
+  /* ---------- entrances ---------- */
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+  .reveal.in{opacity:1;transform:none}
+  .reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}
+  @media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation:none!important;transition:none!important}
+    .reveal{opacity:1;transform:none}
+    .person:hover .pframe img{transform:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="partner">
+  <span class="lbl caps">Produced by</span>
+  <img src="assets/fmc-logo-clean.png" alt="FMC">
+  <span class="lbl caps">In cooperation with</span>
+  <img src="assets/adobe-wordmark-red-OFFICIAL-CDN.svg" alt="Adobe">
+</div>
+<div class="spectrum-rule"></div>
+
+<nav>
+  <div class="shell navin">
+    <div class="wordmark"><img src="assets/premiere-pro-tile-OFFICIAL-CDN.svg" alt="Pr">Premiere&nbsp;<span>Color Mode</span></div>
+    <div class="navlinks">
+      <a href="#about">About</a><a href="#agenda">Agenda</a><a href="#speakers">Speakers</a><a href="#pricing">Pricing</a>
+    </div>
+    <a class="cta" href="#register">Register — $129</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="shell">
+    <div class="kicker caps reveal in">Live, Online Training Conference · Fall 2026</div>
+    <h1 class="reveal in d1">Premiere<span class="spec">Color Mode</span></h1>
+    <div class="tagline reveal in d2">Add color to your life.</div>
+  </div>
+  <div class="facts reveal in d2">
+    <div class="shell factsin">
+      <div class="fact">10 AM – 4 PM ET</div>
+      <div class="fact">Live on Zoom</div>
+      <div class="fact">Global · Multi-language</div>
+      <a class="cta" href="#register">Register — $129</a>
+    </div>
+  </div>
+  <div class="evidence">
+    <div class="lead reveal in d3">
+      <p>For editors ready to master color in Premiere. <b>Learn from the people who built it.</b></p>
+      <div class="scroll caps">Fall 2026 · Date to be announced</div>
+    </div>
+    <figure class="evfig reveal in d3">
+      <img src="assets/adobe-cm-1.png" alt="Adobe Premiere Color Mode — Jaw Bone Canyon sequence with Adobe's own log-to-grade split boundary and Color Mode controls">
+    </figure>
+  </div>
+</header>
+
+<section id="about" class="pad-lg">
+  <div class="shell reveal">
+    <div class="chapter">01 — About the Event</div>
+    <h2 class="d1">Color correction,<br>reimagined for storytellers.</h2>
+    <p class="about-lead">Adobe's new Color Mode is a breakthrough — making color correction accessible and creative for editors who've always seen it as too technical.</p>
+    <div class="about-cols">
+      <p>For decades, color correction belonged to specialists. Editors felt it was too technical, too intimidating — a world apart from the creative flow of storytelling. <b>Adobe Color Mode changes everything.</b></p>
+      <p>Introduced in beta at PostProduction World, this new mode brings intuitive, powerful color grading directly into Premiere Pro — right where editors already live and work.</p>
+    </div>
+    <div class="quote">
+      "Color is the ultimate storytelling tool. For the first time, editors don't need to be colorists to use it that way."
+      <span class="who">— Adobe Color Mode beta user</span>
+    </div>
+    <div class="about-meta">Live on Zoom · Fall 2026 · 10 AM – 4 PM ET</div>
+  </div>
+</section>
+
+<section id="agenda">
+  <div class="agenda-head">
+    <div class="shell reveal">
+      <div class="chapter">02 — Day Schedule</div>
+      <h2 class="d1">A full day of color mastery.</h2>
+      <p class="sec-sub">Full day of cutting edge, instructor-led training.</p>
+      <div class="legend">
+        <span><i class="lg-key"></i>Keynote</span>
+        <span><i class="lg-story"></i>Storytelling</span>
+        <span><i class="lg-hands"></i>Hands-On Workflow</span>
+        <span><i class="lg-adv"></i>Advanced Technique</span>
+        <span><i class="lg-qa"></i>Live Q&amp;A</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tband t-key reveal">
+    <div class="shell tin">
+      <div class="twhen"><b>10:00 – 10:30 AM ET</b>Live on Zoom</div>
+      <div class="tmain">
+        <div class="trk">Keynote</div>
+        <h3>Welcome &amp; Opening Keynote</h3>
+        <div class="spk">Eran Stern + All Speakers</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tband t-story reveal">
+    <div class="shell tin has-img">
+      <div class="twhen"><b>10:30 – 11:30 AM ET</b>Live on Zoom</div>
+      <div class="tmain">
+        <div class="trk">Storytelling</div>
+        <h3>Session 1 — Color as a Storytelling Tool</h3>
+        <div class="spk">Alexis Van Hurkman</div>
+      </div>
+      <figure class="tfig"><img src="assets/adobe-cm-8.png" alt="Premiere Color Mode — Film Color panel with RGB curves scope over a close-up cinematic shot"></figure>
+    </div>
+  </div>
+
+  <div class="tband t-hands reveal">
+    <div class="shell tin has-img">
+      <div class="twhen"><b>11:30 AM – 12:30 PM ET</b>Live on Zoom</div>
+      <div class="tmain">
+        <div class="trk">Hands-On Workflow</div>
+        <h3>Session 2 — Introduction to Color Mode</h3>
+        <div class="spk">Eran Stern</div>
+      </div>
+      <figure class="tfig"><img src="assets/adobe-cm-7.png" alt="Premiere Color Mode — contrast, exposure, temperature, balance and saturation dials with waveform scope"></figure>
+    </div>
+  </div>
+
+  <div class="tbreak reveal">
+    <div class="shell tin">
+      <div class="twhen"><b>12:30 – 1:00 PM ET</b></div>
+      <div class="tmain"><h3>— Break</h3></div>
+    </div>
+  </div>
+
+  <div class="tband t-hands reveal">
+    <div class="shell tin">
+      <div class="twhen"><b>1:00 – 2:15 PM ET</b>Live on Zoom</div>
+      <div class="tmain">
+        <div class="trk">Hands-On Workflow</div>
+        <h3>Session 3 — Workflow Deep Dive: From Log to Look</h3>
+        <div class="spk">Luisa Winters</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tband t-adv reveal">
+    <div class="shell tin has-img">
+      <div class="twhen"><b>2:15 – 3:15 PM ET</b>Live on Zoom</div>
+      <div class="tmain">
+        <div class="trk">Advanced Technique</div>
+        <h3>Session 4 — Advanced Techniques &amp; Creative Grading Styles</h3>
+        <div class="spk">Eran Stern + Alexis Van Hurkman</div>
+      </div>
+      <figure class="tfig"><img src="assets/adobe-cm-9.png" alt="Premiere Color Mode — Royale Style sequence group applied to a teal and gold interior scene"></figure>
+    </div>
+  </div>
+
+  <div class="tbreak reveal">
+    <div class="shell tin">
+      <div class="twhen"><b>3:15 – 3:25 PM ET</b></div>
+      <div class="tmain"><h3>— Break</h3></div>
+    </div>
+  </div>
+
+  <div class="tband t-qa reveal">
+    <div class="shell tin">
+      <div class="twhen"><b>3:25 – 4:00 PM ET</b>Live on Zoom</div>
+      <div class="tmain">
+        <div class="trk">Live Q&amp;A</div>
+        <h3>Open Q&amp;A and Closing Remarks</h3>
+        <div class="spk">All Speakers</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="agenda-foot">
+    <div class="shell reveal">
+      <div class="flat-note">Fall 2026 · Date to be announced · 10 AM–4 PM ET · Live on Zoom</div>
+    </div>
+  </div>
+</section>
+
+<section id="speakers" class="pad-lg">
+  <div class="shell reveal">
+    <div class="chapter">03 — Meet Your Instructors</div>
+    <h2 class="d1">World-class expertise.<br>Real working professionals.</h2>
+    <p class="sec-sub">Every instructor is an Adobe-certified expert with years of hands-on experience in professional production environments.</p>
+    <div class="people">
+      <div class="person">
+        <div class="pframe"><img src="assets/eran-mono.png" alt="Eran Stern"></div>
+        <h3>Eran Stern</h3>
+        <div class="role">Program Manager · Adobe Certified Expert</div>
+        <p>International Adobe trainer and educator with decades of experience in motion graphics and post-production. Eran has trained thousands of editors globally and is one of Adobe's most recognized evangelists for Premiere Pro and After Effects. He leads this event as Program Manager.</p>
+      </div>
+      <div class="person">
+        <div class="pframe"><img src="assets/alexis-mono.png" alt="Alexis Van Hurkman"></div>
+        <h3>Alexis Van Hurkman</h3>
+        <div class="role">Principal Product Manager of Color at Adobe</div>
+        <p>Colorist, writer/director, educator — and the person building the future of color at Adobe. Alexis contributed extensively to DaVinci Resolve (versions 9–17) before joining Adobe, and brings unmatched depth to the intersection of creative vision and color technology.</p>
+      </div>
+      <div class="person">
+        <div class="pframe"><img src="assets/luisa-mono.png" alt="Luisa Winters"></div>
+        <h3>Luisa Winters</h3>
+        <div class="role">Adobe Certified Expert · Editor &amp; Educator</div>
+        <p>Award-winning editor, Adobe Certified Expert, and beloved educator whose approachable style has made complex post-production workflows accessible to thousands. Luisa brings warmth, precision, and deep Premiere expertise to every session she leads.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="regbar reveal">
+  <div class="shell regbarin">
+    <div class="big">Register — $129</div>
+    <div class="line">One price. Attend live or watch on your own schedule.</div>
+    <a class="cta" href="#register">Register — $129</a>
+  </div>
+</div>
+
+<section id="why" class="pad-lg">
+  <div class="shell reveal">
+    <div class="chapter">04 — Why Attend</div>
+    <h2 class="d2">One day. Total transformation.</h2>
+    <div class="why">
+      <div class="item"><div class="n">01</div><h3>Learn live, no shortcuts</h3></div>
+      <div class="item"><div class="n">02</div><h3>Ask anything, get real answers</h3></div>
+      <div class="item"><div class="n">03</div><h3>Color as a storytelling tool</h3></div>
+      <div class="item"><div class="n">04</div><h3>Built for the entire world</h3></div>
+      <div class="item"><div class="n">05</div><h3>Beta features, right now</h3></div>
+      <div class="item"><div class="n">06</div><h3>30 years, one standard</h3></div>
+    </div>
+  </div>
+</section>
+
+<section id="numbers" style="background:var(--band)" class="pad-lg">
+  <div class="shell reveal">
+    <div class="chapter">05 — By the Numbers</div>
+    <h2 class="d2">FMC is trusted by creatives worldwide for decades.</h2>
+    <div class="proof">
+      <div><div class="val" data-count="20" data-suffix="+">0+</div><div class="lbl">Years training Adobe users</div></div>
+      <div><div class="val" data-count="25" data-suffix="K+">0K+</div><div class="lbl">Content creators &amp; broadcasters trained</div></div>
+      <div><div class="val" data-count="91" data-suffix="%">0%</div><div class="lbl">Average Attendee Satisfaction</div></div>
+    </div>
+    <div class="meters">
+      <div>
+        <div class="mlbl">Average Attendee Satisfaction</div>
+        <div class="mnote">Rated across content quality, instructors, pace, and value.</div>
+        <div class="bar"><div class="t"><span>Content</span><b>93%</b></div><div class="track"><div class="fill" style="width:93%"></div></div></div>
+        <div class="bar"><div class="t"><span>Instructors</span><b>91%</b></div><div class="track"><div class="fill" style="width:91%"></div></div></div>
+        <div class="bar"><div class="t"><span>Pace</span><b>88%</b></div><div class="track"><div class="fill" style="width:88%"></div></div></div>
+        <div class="bar"><div class="t"><span>Value</span><b>94%</b></div><div class="track"><div class="fill" style="width:94%"></div></div></div>
+      </div>
+      <div>
+        <div class="mlbl">Global Attendee Breakdown · Past FMC events</div>
+        <div class="mnote">&nbsp;</div>
+        <div class="bar"><div class="t"><span>Americas</span><b>42%</b></div><div class="track"><div class="fill rf1" style="width:42%"></div></div></div>
+        <div class="bar"><div class="t"><span>Europe</span><b>28%</b></div><div class="track"><div class="fill rf2" style="width:28%"></div></div></div>
+        <div class="bar"><div class="t"><span>Asia Pacific</span><b>18%</b></div><div class="track"><div class="fill rf3" style="width:18%"></div></div></div>
+        <div class="bar"><div class="t"><span>Middle East &amp; Africa</span><b>12%</b></div><div class="track"><div class="fill rf4" style="width:12%"></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="regbar reveal">
+  <div class="shell regbarin">
+    <div class="big">Register — $129</div>
+    <div class="line">Fall 2026 · Date to be announced · 10 AM–4 PM ET · Live on Zoom</div>
+    <a class="cta" href="#register">Register — $129</a>
+  </div>
+</div>
+
+<section id="global" class="pad-lg">
+  <div class="shell reveal">
+    <div class="chapter">06 — Global Reach</div>
+    <h2 class="d2">An event built for the world.</h2>
+    <p class="sec-sub">Color speaks every language. And so does FMC training.</p>
+    <div class="glob">
+      <div class="gcell"><h3>Live on Zoom with Real-Time Captions</h3><p>The full event streams live on Zoom with closed captions in multiple languages, so wherever you are in the world, you follow along in real time.</p></div>
+      <div class="gcell"><h3>Professionally Dubbed Recordings</h3><p>Post-event recordings are professionally dubbed, not just subtitled, into multiple languages, making this training truly accessible globally.</p></div>
+      <div class="gcell"><h3>Decades of Adobe Training Partnership</h3><p>FMC has been providing end-user training for Adobe for decades, working directly with Adobe to deliver curriculum that's always current.</p></div>
+      <div class="gcell"><h3>Recordings Included</h3><p>All recordings available as part of your registration, so you can join live and enjoy recordings for 180 days after the event.</p></div>
+    </div>
+    <div class="cities">New York · Chicago · Los Angeles · London · Paris · Berlin · Dubai · Mumbai · Tokyo · Sydney · São Paulo · Cairo</div>
+    <div class="langs">
+      <span>English (Live)</span><span>Spanish</span><span>French</span><span>German</span><span>Japanese</span><span>Portuguese</span><span>Italian</span><span>+ More TBD</span>
+    </div>
+  </div>
+</section>
+
+<section id="pricing" style="background:var(--band)" class="pad-lg">
+  <div class="shell reveal">
+    <div class="chapter ctr" style="justify-content:center">07 — Pricing</div>
+    <h2 class="d1" style="text-align:center">Simple, transparent pricing.</h2>
+    <p class="sec-sub" style="text-align:center;margin-left:auto;margin-right:auto">One price. Attend live or watch on your own schedule.</p>
+    <div class="price-wrap">
+      <div class="price-grid">
+        <div>
+          <div class="plbl">Full Access Pass</div>
+          <div class="amt">$129</div>
+          <div class="per">Per Person · One-Time</div>
+          <a class="cta" href="#register">Register Now</a>
+        </div>
+        <ul class="inc">
+          <li>Attend live sessions from 10 AM – 4 PM ET</li>
+          <li>Watch recordings post-event for 180 days</li>
+          <li>Full day of instructor-led training</li>
+          <li>Live Q&amp;A with all speakers</li>
+          <li>Live closed captions (CC)</li>
+          <li>Foreign-language dubbing available on request</li>
+          <li>Event materials &amp; resources</li>
+        </ul>
+      </div>
+    </div>
+    <div class="gnote">Group discounts for teams of 5+. Contact <a href="mailto:eliseo@fmctraining.com">eliseo@fmctraining.com</a></div>
+  </div>
+</section>
+
+<section id="register" class="pad-lg">
+  <div class="shell reveal">
+    <div class="chapter">08 — Registration</div>
+    <h2 class="d2">Secure your spot.</h2>
+    <div class="reg">
+      <div>
+        <div class="rh">Register for Color Mode 2026</div>
+        <div class="rsub">Fall 2026 · Date to be announced · Online via Zoom · 10 AM – 4 PM ET</div>
+        <div class="modelbl">How would you like to attend? · $129</div>
+        <div class="modes">
+          <div class="mode sel"><b>Attend Live — $129</b><span>Live on Zoom + recording included</span></div>
+          <div class="mode"><b>Watch Recording — $129</b><span>On-demand, CC + dubbing on request</span></div>
+        </div>
+      </div>
+      <div>
+        <form id="regform">
+          <div class="fgrid">
+            <div class="field"><label for="fn">First Name *</label><input id="fn" name="firstName" type="text" required></div>
+            <div class="field"><label for="ln">Last Name *</label><input id="ln" name="lastName" type="text" required></div>
+            <div class="field full"><label for="em">Email Address *</label><input id="em" name="email" type="email" required></div>
+            <div class="field"><label for="co">Company</label><input id="co" name="company" type="text"></div>
+            <div class="field"><label for="jt">Job Title</label><input id="jt" name="jobTitle" type="text"></div>
+            <div class="field"><label for="cn">Country</label><select id="cn" name="country"><option>Select country…</option><option>United States</option><option>Canada</option><option>United Kingdom</option><option>Germany</option><option>France</option><option>Spain</option><option>Italy</option><option>Japan</option><option>Brazil</option><option>Australia</option><option>Mexico</option><option>Other</option></select></div>
+            <div class="field"><label for="rl">Recording Language</label><select id="rl" name="recordingLanguage"><option>English</option><option>Spanish</option><option>French</option><option>German</option><option>Italian</option><option>Japanese</option><option>Portuguese</option></select></div>
+          </div>
+          <button class="cta" type="submit">Complete Registration — $129</button>
+        </form>
+        <div class="secure">Secure checkout · Questions? <a href="mailto:eliseo@fmctraining.com">eliseo@fmctraining.com</a></div>
+        <div class="success" id="success">
+          <h3>You're registered!</h3>
+          <p>Check your inbox for confirmation details.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="pad-md">
+  <div class="shell reveal">
+    <div class="chapter">09 — Contact</div>
+    <h2 class="d3">Get in touch.</h2>
+    <div class="contact">
+      <div>
+        <div class="clbl">General Inquiries</div>
+        <h3>Elise O'Brien</h3>
+        <div class="crole">Senior Director, Global Events &amp; Operations</div>
+      </div>
+      <div class="desc">
+        <p>Registration, group rates, speaker inquiries, sponsorship, accessibility, and event logistics.</p>
+        <a href="mailto:eliseo@fmctraining.com">eliseo@fmctraining.com</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="shell">
+    <div class="fgrid2">
+      <div class="fbrand">
+        <img src="assets/fmc-logo-clean.png" alt="FMC">
+        <p>FMC has been providing end-user training for Adobe for decades, empowering thousands of content creators, editors, and broadcasters worldwide.</p>
+        <div class="faddr">P.O. Box 1882, Quogue, NY 11959<br>212-233-3500</div>
+        <div class="fsoc">
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="4.5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg></a>
+          <a href="#" aria-label="X"><svg viewBox="0 0 24 24" style="fill:var(--dim);stroke:none"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117Z"/></svg></a>
+          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M14.5 8.5h3v-4h-3a4 4 0 0 0-4 4v3h-3v4h3v8h4v-8h3l1-4h-4v-2.5a.5.5 0 0 1 .5-.5Z" transform="scale(.82) translate(2.6 1.4)"/></svg></a>
+          <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="3"/><path d="M8 10.5V17M8 7.5v.1M12 17v-3.8a2.4 2.4 0 0 1 4.8 0V17"/></svg></a>
+        </div>
+      </div>
+      <div class="fcol">
+        <h4>This Event</h4>
+        <a href="#about">About</a>
+        <a href="#agenda">Agenda</a>
+        <a href="#speakers">Speakers</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#register">Register</a>
+      </div>
+      <div class="fcol">
+        <h4>FMC</h4>
+        <a href="https://futuremedia-concepts.com">About FMC</a>
+        <a href="https://futuremedia-concepts.com">Courses</a>
+        <a href="https://futuremedia-concepts.com">Conferences</a>
+        <a href="https://futuremedia-concepts.com">Certifications</a>
+        <a href="https://intelligentproductionhub.com">Intelligent Production Hub</a>
+      </div>
+      <div class="fcol">
+        <h4>Contact</h4>
+        <a href="mailto:eliseo@fmctraining.com">Registration &amp; Info</a>
+        <a href="mailto:eliseo@fmctraining.com">Sponsorship</a>
+        <a href="mailto:eliseo@fmctraining.com">Group Bookings</a>
+        <a href="mailto:eliseo@fmctraining.com">Media &amp; Press</a>
+        <a href="mailto:eliseo@fmctraining.com">eliseo@fmctraining.com</a>
+      </div>
+    </div>
+    <div class="fpartners">
+      <div class="marks">
+        <img class="pr" src="assets/premiere-pro-tile-OFFICIAL-CDN.svg" alt="Pr">
+        <img src="assets/adobe-wordmark-red-OFFICIAL-CDN.svg" alt="Adobe">
+      </div>
+      <div class="copyright">© 2026 Future Media Concepts (FMC). All rights reserved. · Produced by FMC in cooperation with Adobe.</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ---- entrance reveals (skipped entirely under reduced motion) ----
+const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(!rm){
+  const rio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');rio.unobserve(e.target)}}),{threshold:0,rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>{
+    const r=el.getBoundingClientRect();
+    if(r.top<innerHeight&&r.bottom>0){el.classList.add('in')}else{rio.observe(el)}
+  });
+  setTimeout(()=>document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in')),1200);
+}else{
+  document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in'));
+}
+
+// ---- proof-spread count-up ----
+if(!rm){
+  const cio=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;const el=e.target,end=+el.dataset.count,suf=el.dataset.suffix||'';let t0=null;const step=ts=>{t0=t0||ts;const p=Math.min((ts-t0)/1200,1);el.textContent=Math.round(end*(1-Math.pow(1-p,3)))+suf;p<1&&requestAnimationFrame(step)};requestAnimationFrame(step);cio.unobserve(el)}),{threshold:0});
+  document.querySelectorAll('[data-count]').forEach(el=>cio.observe(el));
+}else{
+  document.querySelectorAll('[data-count]').forEach(el=>{el.textContent=el.dataset.count+(el.dataset.suffix||'')});
+}
+
+// ---- attend-mode toggle ----
+document.querySelectorAll('.mode').forEach(m=>m.addEventListener('click',()=>{document.querySelectorAll('.mode').forEach(x=>x.classList.remove('sel'));m.classList.add('sel')}));
+
+// ---- registration success state (no backend) ----
+document.getElementById('regform').addEventListener('submit',e=>{
+  e.preventDefault();
+  e.target.style.display='none';
+  document.getElementById('success').style.display='block';
+});
+</script>
+</body>
+</html>
